@@ -1,5 +1,6 @@
 package com.example.montainwolvesapp;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,14 +23,14 @@ public class MainActivity extends AppCompatActivity {
 
     ImageButton playPause;
     ImageView teamLogo;
-    MediaPlayer mediaPlayer;
+    MediaPlayer mediaPlayer = new MediaPlayer();
     boolean sound = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mediaPlayer=MediaPlayer.create(this,R.raw.intro);
+        mediaPlayer = MediaPlayer.create(this,R.raw.intro);
         mediaPlayer.start();
         playPause = (ImageButton) findViewById(R.id.play_pause_intro);
 
@@ -37,12 +38,18 @@ public class MainActivity extends AppCompatActivity {
         playPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(sound){
+                    sound = false;
+                    playPause.setImageResource(R.drawable.ic_play);
+                }else{
+                    sound = true;
+                    playPause.setImageResource(R.drawable.ic_pause);
+                }
                 introSound();
             }
         });
+
     }
-
-
 
 
     @Override
@@ -75,13 +82,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void introSound(){
-        if(sound){
-            sound = false;
-        }else{
-            sound = true;
-        }
 
+    public void introSound(){
         if(sound) {
             mediaPlayer.start();
         }else{
@@ -89,19 +91,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     public void home(){
+        mediaPlayer.start();
         setContentView(R.layout.activity_main);
     }
 
+
     public void settings(){
+        mediaPlayer.pause();
         setContentView(R.layout.activity_settings);
     }
 
+
     public void team(){
+        mediaPlayer.pause();
         setContentView(R.layout.team);
     }
 
+
     public void contactUs(){
+        mediaPlayer.pause();
         setContentView(R.layout.activity_contact_us);
     }
 }
