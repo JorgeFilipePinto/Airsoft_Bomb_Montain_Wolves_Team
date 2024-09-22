@@ -42,8 +42,7 @@ public class MainActivity extends AppCompatActivity {
         smoke = (Switch) findViewById(R.id.sw_smoke);
         sendConfig = (Button) findViewById(R.id.btn_send_config);
 
-
-
+        
         playPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,10 +83,9 @@ public class MainActivity extends AppCompatActivity {
         sendConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
             }
         });
-
 
     }
 
