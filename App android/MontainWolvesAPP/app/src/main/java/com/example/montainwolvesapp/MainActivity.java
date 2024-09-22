@@ -22,16 +22,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater inflater = new MenuInflater(this);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        Toast.makeText(this, item + " Selected", Toast.LENGTH_SHORT).show();
-        return super.onContextItemSelected(item);
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.home){
+            Toast.makeText(this,item + " Selected!", Toast.LENGTH_SHORT).show();
+            return true;
+        }else if (item.getItemId() == R.id.settings) {
+            Toast.makeText(this,item + " Selected!", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (item.getItemId() == R.id.contact_us) {
+            Toast.makeText(this,item + " Selected!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    public void home(){
+
+    }
+
+    public void settings(){
+
+    }
+    
+    public void contactUs(){
+
     }
 }
