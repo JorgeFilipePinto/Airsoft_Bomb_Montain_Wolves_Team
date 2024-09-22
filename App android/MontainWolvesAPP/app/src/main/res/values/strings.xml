@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Montain Wolves</string>
+    <string name="switch_gps">GPS</string>
+    <string name="switch_leds">Leds</string>
+    <string name="switch_smoke">Smoke</string>
+    <string name="num_of_players">Number Of Players</string>
+    <string name="bomb_code">Bomb Code</string>
+    <string name="send_config">Send</string>
 </resources>
+

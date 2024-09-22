@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -21,10 +22,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    Switch gps, leds, smoke;
+    Button sendConfig;
     ImageButton playPause;
     ImageView teamLogo;
     MediaPlayer mediaPlayer = new MediaPlayer();
     boolean sound = true;
+    boolean gpsEnable, ledsEnable, smokeEnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,57 +37,70 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(this,R.raw.intro);
         mediaPlayer.start();
         playPause = (ImageButton) findViewById(R.id.play_pause_intro);
+        gps = (Switch) findViewById(R.id.sw_gps);
+        leds = (Switch) findViewById(R.id.sw_leds);
+        smoke = (Switch) findViewById(R.id.sw_smoke);
+        sendConfig = (Button) findViewById(R.id.btn_send_config);
+
 
 
         playPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(sound){
-                    sound = false;
-                    playPause.setImageResource(R.drawable.ic_play);
-                }else{
-                    sound = true;
-                    playPause.setImageResource(R.drawable.ic_pause);
-                }
                 introSound();
             }
         });
 
-    }
+        gps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(gps.isChecked()){
+                    gps.setText("gps ON");
+
+                }else{gps.setText("gps Off"); }
+            }
+        });
+
+        leds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(leds.isChecked()){
+                    leds.setText("leds ON");
+
+                }else{leds.setText("leds Off"); }
+            }
+        });
+
+        smoke.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(smoke.isChecked()){
+                    smoke.setText("smoke ON");
+
+                }else{smoke.setText("smoke Off"); }
+            }
+        });
+
+        sendConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.my_menu, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.home){
-            Toast.makeText(this,item + " Selected!", Toast.LENGTH_SHORT).show();
-            home();
-            return true;
-        }else if (item.getItemId() == R.id.settings) {
-            Toast.makeText(this, item + " Selected!", Toast.LENGTH_SHORT).show();
-            settings();
-            return true;
-        }else if(item.getItemId() == R.id.team){
-            Toast.makeText(this,item + " Selected!", Toast.LENGTH_SHORT).show();
-            team();
-            return true;
-        } else if (item.getItemId() == R.id.contact_us) {
-            Toast.makeText(this,item + " Selected!", Toast.LENGTH_SHORT).show();
-            contactUs();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 
     public void introSound(){
+        if(sound){
+            sound = false;
+            playPause.setImageResource(R.drawable.ic_play);
+        }else{
+            sound = true;
+            playPause.setImageResource(R.drawable.ic_pause);
+        }
+
         if(sound) {
             mediaPlayer.start();
         }else{
@@ -91,27 +108,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public void home(){
-        mediaPlayer.start();
-        setContentView(R.layout.activity_main);
-    }
-
-
-    public void settings(){
-        mediaPlayer.pause();
-        setContentView(R.layout.activity_settings);
-    }
-
-
-    public void team(){
-        mediaPlayer.pause();
-        setContentView(R.layout.team);
-    }
-
-
-    public void contactUs(){
-        mediaPlayer.pause();
-        setContentView(R.layout.activity_contact_us);
-    }
 }
