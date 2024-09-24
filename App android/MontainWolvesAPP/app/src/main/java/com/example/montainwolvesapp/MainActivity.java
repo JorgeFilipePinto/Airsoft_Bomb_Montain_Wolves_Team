@@ -1,34 +1,24 @@
 package com.example.montainwolvesapp;
 
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
-import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    Switch gps, leds, smoke;
+    Switch gps, leds, sound, smoke;
     Button sendConfig;
     ImageButton playPause;
     ImageView teamLogo;
     MediaPlayer mediaPlayer = new MediaPlayer();
-    boolean sound = true;
-    boolean gpsEnable, ledsEnable, smokeEnable;
+
+    boolean musicSound, gpsEnable, ledsEnable, smokeEnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         gps = (Switch) findViewById(R.id.sw_gps);
         leds = (Switch) findViewById(R.id.sw_leds);
         smoke = (Switch) findViewById(R.id.sw_smoke);
+        sound = (Switch) findViewById(R.id.sw_sound);
         sendConfig = (Button) findViewById(R.id.btn_send_config);
 
 
@@ -54,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(gps.isChecked()){
-                    gps.setText("gps ON");
+                    gps.setText(R.string.switch_gps_on);
 
-                }else{gps.setText("gps Off"); }
+                }else{gps.setText(R.string.switch_gps_off); }
             }
         });
 
@@ -64,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(leds.isChecked()){
-                    leds.setText("leds ON");
+                    leds.setText(R.string.switch_leds_on);
 
-                }else{leds.setText("leds Off"); }
+                }else{leds.setText(R.string.switch_leds_off); }
             }
         });
 
@@ -74,11 +65,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(smoke.isChecked()){
-                    smoke.setText("smoke ON");
+                    smoke.setText(R.string.switch_smoke_on);
 
-                }else{smoke.setText("smoke Off"); }
+                }else{smoke.setText(R.string.switch_smoke_off); }
             }
         });
+
+        sound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(sound.isChecked()){
+                    sound.setText(R.string.switch_sound_on);
+                }else {
+                    sound.setText(R.string.switch_sound_off);
+                }
+            }
+        });
+
 
         sendConfig.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,19 +90,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
 
     public void introSound(){
-        if(sound){
-            sound = false;
+        if(musicSound){
+            musicSound = false;
             playPause.setImageResource(R.drawable.ic_play);
         }else{
-            sound = true;
+            musicSound = true;
             playPause.setImageResource(R.drawable.ic_pause);
         }
 
-        if(sound) {
+        if(musicSound) {
             mediaPlayer.start();
         }else{
             mediaPlayer.pause();

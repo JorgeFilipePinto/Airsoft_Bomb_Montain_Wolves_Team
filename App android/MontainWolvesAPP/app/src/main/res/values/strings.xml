@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">Montain Wolves</string>
-    <string name="switch_gps">GPS</string>
-    <string name="switch_leds">Leds</string>
-    <string name="switch_smoke">Smoke</string>
+    <string name="switch_gps_off">GPS OFF</string>
+    <string name="switch_gps_on">GPS ON</string>
+    <string name="switch_leds_off">Leds OFF</string>
+    <string name="switch_leds_on">Leds ON</string>
+    <string name="switch_sound_off">Sound OFF</string>
+    <string name="switch_sound_on">Sound ON</string>
+    <string name="switch_smoke_off">Smoke OFF</string>
+    <string name="switch_smoke_on">Smoke ON</string>
+    <string name="time_of_game">Time of Game</string>
     <string name="num_of_players">Number Of Players</string>
     <string name="bomb_code">Bomb Code</string>
     <string name="send_config">Send</string>
