@@ -18,9 +18,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-    </ImageView>
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
         android:id="@+id/play_pause_intro"
@@ -33,81 +31,110 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_pause" />
 
-    <Switch
-        android:id="@+id/sw_gps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="50dp"
-        android:text="@string/switch_gps_off"
-        android:background="@color/white"
+    <TextView
+        android:id="@+id/editText_inOut"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="90dp"
+        android:text="@string/in_out_layout"
+        android:textColor="@color/green"
+        android:textSize="30dp"
         android:textStyle="bold"
-        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <Switch
+        android:id="@+id/sw_gps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/switch_gps_off"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:textColor="@color/blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
         android:id="@+id/sw_sound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="36dp"
         android:text="@string/switch_sound_off"
-        android:background="@color/white"
+        android:textSize="25dp"
         android:textStyle="bold"
-        android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/sw_leds"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:textColor="@color/blue"
+        app:layout_constraintBottom_toBottomOf="@+id/sw_gps"
+        app:layout_constraintStart_toEndOf="@+id/sw_gps"
+        app:layout_constraintTop_toTopOf="@+id/sw_gps"
+        app:layout_constraintVertical_bias="0.0" />
+
     <Switch
         android:id="@+id/sw_leds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:text="@string/switch_leds_off"
-        android:background="@color/white"
+        android:textSize="25dp"
+        android:textColor="@color/blue"
         android:textStyle="bold"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/sw_gps"
+        app:layout_constraintStart_toStartOf="@+id/sw_gps"
         app:layout_constraintTop_toBottomOf="@+id/sw_gps" />
 
     <Switch
         android:id="@+id/sw_smoke"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/white"
+        android:layout_marginTop="25dp"
+        android:textColor="@color/blue"
         android:text="@string/switch_smoke_off"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/sw_sound"
+        app:layout_constraintStart_toStartOf="@+id/sw_sound"
         app:layout_constraintTop_toBottomOf="@+id/sw_sound" />
+
+    <TextView
+        android:id="@+id/editText_dataGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="128dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/game_data_layout"
+        android:textColor="@color/green"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sw_smoke" />
 
     <EditText
         android:id="@+id/edit_text_time_game"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
         android:background="@color/white"
         android:ems="10"
         android:hint="@string/time_of_game"
         android:inputType="number"
         android:textAlignment="center"
+        android:textSize="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sw_smoke" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_dataGame" />
 
     <EditText
         android:id="@+id/edit_text_players"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
         android:background="@color/white"
         android:ems="10"
         android:hint="@string/num_of_players"
+        android:textSize="30dp"
         android:inputType="number"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,13 +142,14 @@
 
     <EditText
         android:id="@+id/edit_text_bomb_Code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
         android:background="@color/white"
         android:ems="10"
         android:hint="@string/bomb_code"
+        android:textSize="30dp"
         android:inputType="number"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
@@ -131,34 +159,14 @@
         android:id="@+id/btn_send_config"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/red"
         android:text="@string/send_config"
-        android:background="@color/green"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/play_pause_intro" />
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_bomb_Code" />
 
-    <Button
-        android:id="@+id/bluetooth_on_off"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="30dp"
-        android:text="ON/OFF"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_send_config"/>
-
-    <Button
-        android:id="@+id/bluetooth_discover"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="30dp"
-        android:text="Discover"
-        android:onClick="btnDiscover"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bluetooth_on_off"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

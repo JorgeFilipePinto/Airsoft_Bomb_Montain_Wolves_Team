@@ -31,7 +31,7 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity {
 
     Switch gps, leds, sound, smoke;
-    Button sendConfig, BT, btScan;
+    Button sendConfig;
     ImageButton playPause;
     ImageView teamLogo;
     MediaPlayer mediaPlayer = new MediaPlayer();
@@ -55,15 +55,13 @@ public class MainActivity extends AppCompatActivity {
         bluetoothDevice = bluetoothAdapter.getRemoteDevice(DEVICE_ADDRESS);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.intro);
-        //mediaPlayer.start();
+        mediaPlayer.start();
         playPause = (ImageButton) findViewById(R.id.play_pause_intro);
         gps = (Switch) findViewById(R.id.sw_gps);
         leds = (Switch) findViewById(R.id.sw_leds);
         smoke = (Switch) findViewById(R.id.sw_smoke);
         sound = (Switch) findViewById(R.id.sw_sound);
         sendConfig = (Button) findViewById(R.id.btn_send_config);
-        BT = (Button) findViewById(R.id.bluetooth_on_off);
-        btScan = (Button) findViewById(R.id.bluetooth_discover);
         timeGame = (EditText) findViewById(R.id.edit_text_time_game);
         numPlayers = (EditText) findViewById(R.id.edit_text_players);
         bombCode = (EditText) findViewById(R.id.edit_text_bomb_Code);
