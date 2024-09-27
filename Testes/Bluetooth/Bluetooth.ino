@@ -28,10 +28,12 @@ BT.begin(device_name);
 //BT.deleteAllBondedDevices();
 Serial.printf("The device with name \"%s\" is started \nNow you can pai it with Bluetooth\n", device_name.c_str());
 Serial.print("MAC Address: "); Serial.println(BT.getBtAddressString());
-}
 
-void loop() {
-  if (BT.available())
+
+while(!gameConfigured)
+{
+
+    if (BT.available())
   {
     char inComingChar = BT.read();
     if (inComingChar != '\n')
@@ -53,7 +55,7 @@ void loop() {
 
   if (message.substring(0,4) == "TIME")
   {
-    gameTime = message.substring(4).toInt();
+    gameTime = message.substring(4).toInt() * 1000;
     Serial.print("\nGame Time: "); Serial.println(gameTime);
   }
 
@@ -63,40 +65,65 @@ void loop() {
     Serial.print("Bomb Code: "); Serial.println(bombCode);
   }
 
-  if (message == "gpsON"){
+  if (message == "gpsON")
+  {
     gps = true;
     Serial.println("\nGPS is ON!");
   }
 
-  if (message == "gpsOFF"){
+  if (message == "gpsOFF")
+  {
     gps = false;
     Serial.println("\nGPS is OFF!");
   }
 
-  if (message == "ledsON"){
+  if (message == "ledsON")
+  {
     leds = true;
     Serial.println("\nLeds are ON!");
   }
 
-  if (message == "ledsOFF"){
+  if (message == "ledsOFF")
+  {
     leds = false;
     Serial.println("\nLeds are OFF!");
   }
 
-  if (message == "soundON"){
+  if (message == "soundON")
+  {
     sound = true;
     Serial.println("\nSound is ON!");
   }
 
-  if (message == "soundOFF"){
+  if (message == "soundOFF")
+  {
     sound = false;
     Serial.println("\nSound is OFF!");
   }
 
-  if (message == "sendConfig"){
+  if (message == "smokeON")
+  {
+    sound = false;
+    Serial.println("\nSmoke is ON!");
+  }
+
+  if (message == "smokeOFF")
+  {
+    sound = false;
+    Serial.println("\nSmoke is OFF!");
+  }
+
+  if (message == "sendConfig")
+  {
     gameConfigured = true;
     Serial.println("\nGame READY!!");
   }
   delay(50);
+  }
+
+}
+
+void loop() {
+
 }
 

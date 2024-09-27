@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView teamLogo;
     MediaPlayer mediaPlayer = new MediaPlayer();
     EditText timeGame, numPlayers, bombCode;
-    boolean musicSound, gpsEnable, ledsEnable, smokeEnable;
+    boolean musicSound;
 
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothSocket bluetoothSocket;
@@ -108,11 +108,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (gps.isChecked()) {
-                    gps.setText(R.string.switch_gps_on);
                     String message = "gpsON\n";
                     sendData(message);
                 } else {
-                    gps.setText(R.string.switch_gps_off);
                     String message = "gpsOFF\n";
                     sendData(message);
                 }
@@ -122,35 +120,54 @@ public class MainActivity extends AppCompatActivity {
         leds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String message;
                 if (leds.isChecked()) {
                     leds.setText(R.string.switch_leds_on);
-
+                    message = "ledsON\n";
                 } else {
                     leds.setText(R.string.switch_leds_off);
+                    message = "ledsOFF\n";
+
                 }
+                sendData(message);
             }
         });
 
         smoke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String message;
                 if (smoke.isChecked()) {
                     smoke.setText(R.string.switch_smoke_on);
-
+                    message = "smokeON\n";
                 } else {
                     smoke.setText(R.string.switch_smoke_off);
+                    message = "smokeOFF\n";
                 }
+                sendData(message);
             }
         });
 
         sound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String message;
                 if (sound.isChecked()) {
                     sound.setText(R.string.switch_sound_on);
+                    message = "soundON\n";
                 } else {
                     sound.setText(R.string.switch_sound_off);
+                    message = "soundOFF\n";
                 }
+                sendData(message);
+            }
+        });
+
+        sendConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message = "sendConfig";
+                sendData(message);
             }
         });
 
