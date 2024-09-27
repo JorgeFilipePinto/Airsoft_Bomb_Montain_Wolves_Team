@@ -1,37 +1,102 @@
 package com.example.montainwolvesapp;
 
+import static android.content.ContentValues.TAG;
+
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
     Switch gps, leds, sound, smoke;
-    Button sendConfig;
+    Button sendConfig, BT, btScan;
     ImageButton playPause;
     ImageView teamLogo;
     MediaPlayer mediaPlayer = new MediaPlayer();
-
+    EditText timeGame, numPlayers, bombCode;
     boolean musicSound, gpsEnable, ledsEnable, smokeEnable;
+
+    private BluetoothAdapter bluetoothAdapter;
+    private BluetoothSocket bluetoothSocket;
+    private BluetoothDevice bluetoothDevice;
+    private OutputStream outputStream;
+
+    private final String DEVICE_ADDRESS = "24:DC:C3:48:5E:F2"; // Coloque o endereço MAC do seu módulo Bluetooth
+    private final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mediaPlayer = MediaPlayer.create(this,R.raw.intro);
-        mediaPlayer.start();
+
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        bluetoothDevice = bluetoothAdapter.getRemoteDevice(DEVICE_ADDRESS);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.intro);
+        //mediaPlayer.start();
         playPause = (ImageButton) findViewById(R.id.play_pause_intro);
         gps = (Switch) findViewById(R.id.sw_gps);
         leds = (Switch) findViewById(R.id.sw_leds);
         smoke = (Switch) findViewById(R.id.sw_smoke);
         sound = (Switch) findViewById(R.id.sw_sound);
         sendConfig = (Button) findViewById(R.id.btn_send_config);
+        BT = (Button) findViewById(R.id.bluetooth_on_off);
+        btScan = (Button) findViewById(R.id.bluetooth_discover);
+        timeGame = (EditText) findViewById(R.id.edit_text_time_game);
+        numPlayers = (EditText) findViewById(R.id.edit_text_players);
+        bombCode = (EditText) findViewById(R.id.edit_text_bomb_Code);
+
+        timeGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message = "TIME" + timeGame.getText().toString() + "\n";
+                sendData(message);
+            }
+        });
+
+        numPlayers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message = "TEAM" + numPlayers.getText().toString() + "\n";
+                sendData(message);
+            }
+        });
+
+        bombCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (bombCode.length() == Integer.parseInt(numPlayers.getText().toString())){
+                    String message = "CODE" + bombCode.getText().toString() + "\n";
+                    sendData(message);
+                }else{
+                    Toast.makeText(MainActivity.this,
+                            "Bomb Code Size let be the same of Players Number",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
         playPause.setOnClickListener(new View.OnClickListener() {
@@ -44,55 +109,56 @@ public class MainActivity extends AppCompatActivity {
         gps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(gps.isChecked()){
+                if (gps.isChecked()) {
                     gps.setText(R.string.switch_gps_on);
-
-                }else{gps.setText(R.string.switch_gps_off); }
+                    String message = "gpsON\n";
+                    sendData(message);
+                } else {
+                    gps.setText(R.string.switch_gps_off);
+                    String message = "gpsOFF\n";
+                    sendData(message);
+                }
             }
         });
 
         leds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(leds.isChecked()){
+                if (leds.isChecked()) {
                     leds.setText(R.string.switch_leds_on);
 
-                }else{leds.setText(R.string.switch_leds_off); }
+                } else {
+                    leds.setText(R.string.switch_leds_off);
+                }
             }
         });
 
         smoke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(smoke.isChecked()){
+                if (smoke.isChecked()) {
                     smoke.setText(R.string.switch_smoke_on);
 
-                }else{smoke.setText(R.string.switch_smoke_off); }
+                } else {
+                    smoke.setText(R.string.switch_smoke_off);
+                }
             }
         });
 
         sound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(sound.isChecked()){
+                if (sound.isChecked()) {
                     sound.setText(R.string.switch_sound_on);
-                }else {
+                } else {
                     sound.setText(R.string.switch_sound_off);
                 }
             }
         });
 
-
-        sendConfig.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
+        connectBluetooth();
 
     }
-
 
     public void introSound(){
         if(musicSound){
@@ -107,6 +173,34 @@ public class MainActivity extends AppCompatActivity {
             mediaPlayer.start();
         }else{
             mediaPlayer.pause();
+        }
+    }
+
+    private void connectBluetooth() {
+        try {
+            bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(MY_UUID);
+            bluetoothSocket.connect();
+            outputStream = bluetoothSocket.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendData(String message) {
+        try {
+            outputStream.write(message.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            bluetoothSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

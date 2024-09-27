@@ -6,6 +6,8 @@ char isComingChar;
 boolean gps, leds, smoke, sound = false;
 boolean gameConfigured = false;
 int playersNum, gameTime;
+String bombCode = "";
+
 
 
 // Check if Bluetooth is available
@@ -25,6 +27,7 @@ Serial.begin(115200);
 BT.begin(device_name);
 //BT.deleteAllBondedDevices();
 Serial.printf("The device with name \"%s\" is started \nNow you can pai it with Bluetooth\n", device_name.c_str());
+Serial.print("MAC Address: "); Serial.println(BT.getBtAddressString());
 }
 
 void loop() {
@@ -52,6 +55,12 @@ void loop() {
   {
     gameTime = message.substring(4).toInt();
     Serial.print("\nGame Time: "); Serial.println(gameTime);
+  }
+
+  if (message.substring(0,4) == "CODE")
+  {
+    bombCode = message.substring(4);
+    Serial.print("Bomb Code: "); Serial.println(bombCode);
   }
 
   if (message == "gpsON"){
