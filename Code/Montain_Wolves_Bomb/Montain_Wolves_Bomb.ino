@@ -15,6 +15,10 @@
 #define SCREEN_ADDRESS 0x3C //See datasheet for Address
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
+#define RXD2 16
+#define TXD2 17
+HardwareSerial neogps(1);
+
 
 enum GameStatus {
   Configuration,
@@ -70,10 +74,12 @@ Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 GameStatus gameStatus = Configuration;
 LCD_I2C lcd(0x27, 16, 2);
 Bomb bomb(30, "0000", 3);
-
+TinyGPSPlus gps;
+TaskHandle_t Task2;
 
 
 void setup() {
+ Serial.begin(115200);
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
     Serial.println(F("SSD1306 allocation failed"));
@@ -82,15 +88,16 @@ void setup() {
   display.clearDisplay();
   display.display();
   delay(2000);
-      display.clearDisplay();
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(0, 0);
-    display.setTextSize(3);
-    display.print("No Data");
-    display.display();
+  display.clearDisplay();
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(0, 0);
+  display.setTextSize(3);
+  display.print("No Data");
+  display.display();
 
+  neogps.begin(9600, SERIAL_8N1, RXD2, TXD2);
 
-  Serial.begin(115200);
+ 
   BT.begin(device_name);
   Serial.printf("The device with name \"%s\" is started \nNow you can pai it with Bluetooth\n", device_name.c_str());
   Serial.print("MAC Address: "); Serial.println(BT.getBtAddressString());
@@ -99,7 +106,99 @@ void setup() {
   lcd.display();
   lcd.backlight();
 
+  xTaskCreatePinnedToCore(
+    gpsTracker,
+    "Task2",
+    10000,
+    NULL,
+    1,
+    &Task2,
+    0);
+
   intro();
+}
+
+void gpsTracker(void * pvParameters){
+
+  for(;;){
+  boolean newData = false;
+  for (unsigned long start = millis(); millis() - start < 1000;)
+  {
+    while (neogps.available())
+    {
+      if (gps.encode(neogps.read()))
+      {
+        newData = true;
+      }
+    }
+  }
+
+  //If newData is true
+  if(newData == true)
+  {
+    newData = false;
+    Serial.println(gps.satellites.value());
+    Serial.print("LAT=");  Serial.println(gps.location.lat(), 6);
+    Serial.print("LONG="); Serial.println(gps.location.lng(), 6);
+    Serial.print("ALT=");  Serial.println(gps.altitude.meters());
+    Serial.print("Time= "); Serial.print(gps.time.hour()+1); Serial.print(":"); Serial.println(gps.time.minute());
+    Serial.print("Date= "); Serial.println(gps.date.value());
+    Serial.print("Hdop value: "); Serial.println(gps.hdop.value());
+    print_speed();
+  }
+  else
+  {
+    display.clearDisplay();
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 0);
+    display.setTextSize(3);
+    display.print("No Data");
+    display.setCursor(50,50);
+    display.setTextSize(1);
+    display.print("Hdop= "); display.print(gps.hdop.value());
+    display.display();
+  }
+
+  }
+
+}
+
+void print_speed()
+{
+  display.clearDisplay();
+  display.setTextColor(SSD1306_WHITE);
+  
+  if (gps.location.isValid() == 1)
+  {
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setCursor(2, 5);
+    display.print("Lat: "); display.print(gps.location.lat(),6);
+    display.setCursor(2, 15);
+    display.print("Long: "); display.print(gps.location.lng(),6);
+    display.setCursor(2, 25);
+    display.print("SAT: "); display.print(gps.satellites.value());
+    display.setCursor(2, 35);
+    display.print("speed: "); display.print(gps.speed.kmph());
+    display.setCursor(2, 45);
+    display.print("hdop: "); display.print(gps.hdop.value());
+    display.setCursor(2, 55);
+    display.print("ALT: "); display.print(gps.altitude.meters(), 0);
+    display.display();
+  }
+  else
+  {
+    display.clearDisplay();
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 0);
+    display.setTextSize(3);
+    display.print("No Data");
+    display.setCursor(50,50);
+    display.setTextSize(1);
+    display.print("Hdop= "); display.print(gps.hdop.value());
+    Serial.println();
+    display.display();
+  }  
 }
 
 
