@@ -112,12 +112,14 @@ void loop(){
         delay(100);
         noTone(BUZZER);
         if(codeSize > 0){
+          lcd.setCursor(codeSize + 4, 1);
           secondCode += key;
           Serial.print("Digit Insert ");
           Serial.println(key);
           codeSize--;
           Serial.print("Faltam ");
           Serial.println(codeSize);
+          lcd.print(key);
         }
       }
       if(codeSize == 0){

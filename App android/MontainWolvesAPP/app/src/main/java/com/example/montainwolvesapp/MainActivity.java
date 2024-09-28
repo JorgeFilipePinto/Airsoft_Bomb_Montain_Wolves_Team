@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothDevice bluetoothDevice;
     private OutputStream outputStream;
 
-    private final String DEVICE_ADDRESS = "24:DC:C3:48:5E:F2"; // Coloque o endereço MAC do seu módulo Bluetooth
+    private final String DEVICE_ADDRESS = "08:A6:F7:20:B3:1E"; // Coloque o endereço MAC do seu módulo Bluetooth
     private final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     @Override
