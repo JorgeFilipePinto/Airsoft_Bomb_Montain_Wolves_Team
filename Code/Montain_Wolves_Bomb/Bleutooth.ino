@@ -143,7 +143,9 @@ void bluetoothConfig(BluetoothSerial BT){
     bluetoothConfigured = true;
     Serial.println("\nGame READY!!");
     lcd.clear();
+
     bombIsReady();
+    
     delay(2000);
     lcd.clear();
     lcd.backlightOff();
