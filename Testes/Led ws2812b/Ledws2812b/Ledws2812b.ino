@@ -26,8 +26,8 @@
 #include "paletas.h"
 
 // delcara Fita de LEDs
-#define NUM_LEDS_FITA 22
-#define PINO_FITA 12
+#define NUM_LEDS_FITA 20
+#define PINO_FITA 15
 CRGB fita[NUM_LEDS_FITA];
 
 // Variáveis de programa
@@ -54,39 +54,44 @@ void loop() {
   //Efeito 1 - Paletas em Ondas
   gradienteOndas();
   fillSolidColor(CRGB::Black);
+  Serial.println("gradienteOndas");
 
   // Efeito 2 - Respiracao
   cor = random(1, 255);
   respiracao(cor);
   fillSolidColor(CRGB::Black);
+  Serial.println("respiracao");
 
   // Efeito 3 - Paleta com movimento
   gradienteMovendo();
   fillSolidColor(CRGB::Black);
+    Serial.println("gradienteMovendo");
 
   // Efeito 4 - Pixels Aleatorios em uma Paleta
   PixelsAleatorios();
   fillSolidColor(CRGB::Black);
+    Serial.println("PixelsAleatorios");
 
   // Efeito 5 - Raio Arco-Iris
   raioArcoiris();
   fillSolidColor(CRGB::Black);
+  Serial.println("raioArcoiris");
 
   // Efeito 6 - Luzes dançantes
   luzesDancantes();
   fillSolidColor(CRGB::Black);
-
+  Serial.println("luzesDancantes");
   // Efeito 7 - Cometas
   cometa();
   fillSolidColor(CRGB::Black);
-
+  Serial.println("cometa");
   // Efeito 8 - Explosão
   explosao();
-
+  Serial.println("explosao");
   // Efeito 9 - Bolas coloridas
   bolasColoridas();
   fillSolidColor(CRGB::Black);
-
+  Serial.println("bolasColoridas");
   // Efeito 10 - Teatro 2021
   cor = random(1, 255);
   teatro2021(cor);
