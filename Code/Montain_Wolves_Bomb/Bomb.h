@@ -5,6 +5,7 @@ class Bomb{
   public:
     int time;
     int tries;
+    int tryArming;
     int players;
     int gameTime;
     int speedLight[4];

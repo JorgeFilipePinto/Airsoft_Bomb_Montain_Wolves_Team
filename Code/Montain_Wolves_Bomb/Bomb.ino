@@ -4,6 +4,7 @@ extern double getDIstance(double, double);
 Bomb::Bomb(int time, String code, int tries){
   this->time = time;
   this->tries = tries;
+  this->tryArming = 3;
   this->code = code;
   this->players = 0;
   this->gameTime = 30000;

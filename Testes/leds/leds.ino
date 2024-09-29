@@ -31,12 +31,12 @@ void loop() {
   Serial.println("gradienteOndas");
   gradienteOndas();
   fillSolidColor(CRGB::Black);
- */
+ 
   fillSolidColor(CRGB::Red);
-  /*// Efeito 2 - Respiracao
+  // Efeito 2 - Respiracao*/
   Serial.println("respiracao");
-  cor = 22;
-  respiracao(cor, 20);
+  cor = 100;
+  respiracao(cor, 255);
   fillSolidColor(CRGB::Black);
 /*
 

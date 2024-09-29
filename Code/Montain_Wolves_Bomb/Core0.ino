@@ -13,7 +13,6 @@ void gpsTracker(void * pvParameters){
     {
       getData(newData);
     }
-
     //If newData is true
     if(newData == true)
     {

@@ -1,3 +1,4 @@
+extern void bombIsReady();
 void bluetoothConfig(BluetoothSerial);
 
 void bluetoothConfig(BluetoothSerial BT){
@@ -142,10 +143,7 @@ void bluetoothConfig(BluetoothSerial BT){
     bluetoothConfigured = true;
     Serial.println("\nGame READY!!");
     lcd.clear();
-    lcd.setCursor(6,0);
-    lcd.print("Bomb");
-    lcd.setCursor(3, 1);
-    lcd.print("READY!");
+    bombIsReady();
     delay(2000);
     lcd.clear();
     lcd.backlightOff();

@@ -2,14 +2,18 @@
 extern boolean setupFinish;
 
 void bluetoothConfig();
+void bombIsReady();
 void availableZone();
 void invalidZone();
+void insertCode();
 void teamScroll();
 void printTeam();
 void printDigit();
 void printCode(String);
 void correctCode();
 void tryAgain();
+void bombExploded();
+void bombExplodedToArming();
 void youWin();
 void bombArmed();
 
@@ -20,6 +24,13 @@ void bluetoothConfig(){
   lcd.print("Bluetooth");
   lcd.setCursor(1,1);
   lcd.print("Configuration!");
+}
+
+void bombIsReady(){
+  lcd.setCursor(6,0);
+  lcd.print("Bomb");
+  lcd.setCursor(5, 1);
+  lcd.print("READY!");
 }
 
 void availableZone(){
@@ -52,6 +63,11 @@ void printTeam(){
   lcd.print("Airsoft Bomb");
 }
 
+void insertCode(){
+  lcd.setCursor(0,0);
+  lcd.print("Insert Bomb Code");
+}
+
 
 void bombArmed(){
   lcd.setCursor(2,0);
@@ -78,6 +94,18 @@ void printCode(String code){
 void tryAgain(){
   lcd.setCursor(3,0);
   lcd.print("Try Again!!");
+}
+
+void bombExploded(){
+  lcd.setCursor(1,0);
+  lcd.print("Bomb Exploded");
+}
+
+void bombExplodedToArming(){
+  lcd.setCursor(1,0);
+  lcd.print("Bomb Exploded");
+  lcd.setCursor(3, 1);
+  lcd.print("To Arming");
 }
 
 void youWin(){

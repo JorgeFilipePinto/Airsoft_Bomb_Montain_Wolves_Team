@@ -12,11 +12,13 @@ void menuCore0(){
   }
   switch(gameStatus){
     case Configuration: {
-
+      gradienteMovendo();
+      //fillSolidColor(CRGB::Black);
       break;
     }
     case Prepared: {
-
+      luzesDancantes();
+      fillSolidColor(CRGB::Black);
       break;
     }
     case ReadyToArm: {
@@ -38,11 +40,21 @@ void menuCore0(){
       break;
     }
     case Disarm: {
-
+      cor = 100;
+      respiracao(cor, bomb.speedLight[4]);
+      fillSolidColor(CRGB::Black);
       break;
     }
     case Explode: {
-
+      cor = 22;
+      respiracao(cor, bomb.speedLight[4]);
+      fillSolidColor(CRGB::Black);
+      break;
+    }
+    case ExplodeTryArming: {
+      cor = 22;
+      respiracao(cor, bomb.speedLight[4]);
+      fillSolidColor(CRGB::Black);
       break;
     }
     default: {

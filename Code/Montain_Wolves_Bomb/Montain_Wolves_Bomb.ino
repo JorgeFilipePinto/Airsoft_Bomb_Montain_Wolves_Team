@@ -46,7 +46,8 @@ enum GameStatus {
   TryCode,
   VerifyCode,
   Disarm,
-  Explode
+  Explode,
+  ExplodeTryArming
 };
 
 boolean setupFinish = false;
