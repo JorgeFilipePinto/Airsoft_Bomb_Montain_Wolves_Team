@@ -94,7 +94,7 @@ void correctCode(){
 }
 
 void printCode(String code){
-  lcd.setCursor(4, 1);
+  lcd.setCursor(0, 1);
   lcd.print(code);
 }
 

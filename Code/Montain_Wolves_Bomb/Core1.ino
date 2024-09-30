@@ -17,6 +17,13 @@ boolean discovoredCode = false;
 String code = "";
 String secondCode = "";
 int codeSize = 0;
+int secondCodeSize = 0;
+int minutesAnterior = bomb.time / 1000;
+int secondsAnterior = 59;
+
+unsigned long int bombTime_millisAnterior = 0;
+unsigned long int clock_millisAnterior = 0;
+int count = 0;
 
 void core_1(){
 
@@ -25,17 +32,18 @@ void core_1(){
       printBluetoothChoice();
       char key = keypad.getKey();
       if (key == 'A'){
+        lcd.clear();
         String message = "";
         Serial.println("Bluetooth configuration!");
         bluetoothConfig();
         bluetoothConfig(BT);
-        lcd.clear();
         gameStatus = Prepared;
+        lcd.clear();
       }else if (key == 'D'){
-        bomb.time = 30000;
+        bomb.time = 120000;
         bomb.tries = 3;
         bomb.tryArming = 3;
-        bomb.code = "123456789";
+        bomb.code = "123";
         lcd.clear();
         gameStatus = Prepared;
       }
@@ -64,6 +72,8 @@ void core_1(){
             Serial.println("Codigo inserido com sucesso!");
             Serial.print("code size "); Serial.println(codeSize);
             gameStatus = TryCode;
+            bombTime_millisAnterior = millis();
+            clock_millisAnterior = millis();
             lcd.clear();
           }else{
             lcd.clear();
@@ -73,7 +83,6 @@ void core_1(){
             codeSize = 0;
             if (bomb.tryArming == 0){
               lcd.clear();
-              Serial.println("entrei aqui");
               gameStatus = ExplodeTryArming;
             }else{
               delay(5000);
@@ -86,6 +95,8 @@ void core_1(){
           String tempCode = code.substring(0, code.length() - 1);
           code = tempCode;
           printCode(code);
+          }else { 
+            code = "";
           }
         }else{
           code += key;
@@ -98,22 +109,46 @@ void core_1(){
       break;
     }
     case TryCode: {
-      bombArmed();
-      char key = keypad.getKey();
-      if(key){
-        delay(100);
-        if(codeSize > 0){
-          secondCode += key;
-          Serial.print("Digit Insert "); Serial.println(key);
-          codeSize--;
-          Serial.print("Faltam "); Serial.println(codeSize);
-          printDigit(code);
+      if (millis() - bombTime_millisAnterior >= bomb.time){
+        gameStatus = Explode;
+      }else if (millis() - clock_millisAnterior >= 1000){
+        clock_millisAnterior = millis();
+        secondsAnterior--;
+        lcd.setCursor(4, 1);
+        lcd.print(minutesAnterior);
+        lcd.print(":");
+        lcd.print(secondsAnterior);
+        count++;
+        if(count == 60){
+          secondsAnterior = 59;
+          minutesAnterior--;
+          count = 0;
         }
       }
-      if(codeSize == 0){
-        gameStatus = VerifyCode;
-        lcd.clear();
+      bombArmed();
+      char key = keypad.getKey();
+      if (key){
+        if (key == 'D' & secondCodeSize > 0){
+          gameStatus = VerifyCode;
+          lcd.clear();
+        }else if (key == 'C' & secondCodeSize > 0){
+          lcd.clear();
+          secondCodeSize--;
+          if (secondCodeSize > 0) {
+            String tempCode = secondCode.substring(0, secondCode.length() - 1);
+            secondCode = tempCode;
+            printCode(secondCode);
+          }else{
+            secondCode = "";
+          }
+          }else{
+            secondCode += key;
+            Serial.print("Digit Insert "); Serial.println(key);
+            secondCodeSize++;
+            Serial.print("Faltam "); Serial.println(secondCodeSize);
+            printDigit(secondCode);
         }
+      }
       break;
     }
     case VerifyCode: {
@@ -122,11 +157,13 @@ void core_1(){
         correctCode();
         Serial.println("correct code!");
         gameStatus = Disarm;
+      } else if (bomb.tries == 0){
+        gameStatus = Explode;
       }else{
         tryAgain();
         bomb.tries--;
         Serial.println("Try Again!!");
-        codeSize = bomb.getSize();
+        codeSize = 0;
         gameStatus = TryCode;
         secondCode = "";
         delay(5000);
@@ -137,15 +174,24 @@ void core_1(){
     case Disarm: {
       youWin();
       Serial.println("YOU WIN!");
+
+      delay(10000);
+      gameStatus = ReadyToArm;
       break;
     }
     case Explode: {
       bombExploded();
       Serial.println("Bomb Exploded");
+
+      delay(10000);
+      gameStatus = ReadyToArm;
       break;
     }
     case ExplodeTryArming: {
       bombExplodedToArming();
+
+      delay(10000);
+      gameStatus = ReadyToArm;
       break;
     }
     default: {
@@ -153,6 +199,6 @@ void core_1(){
       break;
     }
   }
-  delay(50);
+
 
 }
