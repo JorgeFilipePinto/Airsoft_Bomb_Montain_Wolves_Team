@@ -1,4 +1,4 @@
-
+extern void printBluetoothChoice();
 extern void bluetoothConfig();
 extern void invalidZone();
 extern void availableZone();
@@ -7,7 +7,7 @@ extern void correctCode();
 extern void tryAgain();
 extern void youWin();
 extern void bombArmed();
-extern void printDigit();
+extern void printDigit(String);
 extern void printCode(String);
 extern void bombExploded();
 extern void bombExplodedToArming();
@@ -22,19 +22,34 @@ void core_1(){
 
   switch(gameStatus){
     case Configuration: {
-      String message = "";
-      Serial.println("Bluetooth configuration!");
-      bluetoothConfig();
-      bluetoothConfig(BT);
-      gameStatus = Prepared;
+      printBluetoothChoice();
+      char key = keypad.getKey();
+      if (key == 'A'){
+        String message = "";
+        Serial.println("Bluetooth configuration!");
+        bluetoothConfig();
+        bluetoothConfig(BT);
+        lcd.clear();
+        gameStatus = Prepared;
+      }else if (key == 'D'){
+        bomb.time = 30000;
+        bomb.tries = 3;
+        bomb.tryArming = 3;
+        bomb.code = "123456789";
+        lcd.clear();
+        gameStatus = Prepared;
+      }
+
       break;
     }
     case Prepared: {
       if(bomb.isValidZone()){
         availableZone();
+        lcd.clear();
         gameStatus = ReadyToArm;  
       }else{
         invalidZone();
+        lcd.clear();
       }
       break;
     }
@@ -51,9 +66,18 @@ void core_1(){
             gameStatus = TryCode;
             lcd.clear();
           }else{
+            lcd.clear();
+            tryAgain();
             bomb.tryArming--;
             code = "";
             codeSize = 0;
+            if (bomb.tryArming == 0){
+              lcd.clear();
+              Serial.println("entrei aqui");
+              gameStatus = ExplodeTryArming;
+            }else{
+              delay(5000);
+              }
             }
         }else if (key == 'C' & codeSize > 0){
           lcd.clear();
@@ -68,16 +92,13 @@ void core_1(){
           codeSize++;
           Serial.print("Digit Insert "); Serial.println(key);
 
-          printDigit(key);
+          printDigit(code);
         }
-      }
-      if (bomb.tryArming == 0){
-        gameStatus == ExplodeTryArming;
       }
       break;
     }
     case TryCode: {
-      void bombArmed();
+      bombArmed();
       char key = keypad.getKey();
       if(key){
         delay(100);
@@ -86,7 +107,7 @@ void core_1(){
           Serial.print("Digit Insert "); Serial.println(key);
           codeSize--;
           Serial.print("Faltam "); Serial.println(codeSize);
-          printDigit(key);
+          printDigit(code);
         }
       }
       if(codeSize == 0){
@@ -124,7 +145,7 @@ void core_1(){
       break;
     }
     case ExplodeTryArming: {
-      void bombExplodedToArming();
+      bombExplodedToArming();
       break;
     }
     default: {

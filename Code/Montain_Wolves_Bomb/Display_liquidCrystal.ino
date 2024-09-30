@@ -1,5 +1,6 @@
 
 extern boolean setupFinish;
+extern String code;
 
 void bluetoothConfig();
 void bombIsReady();
@@ -8,7 +9,7 @@ void invalidZone();
 void insertCode();
 void teamScroll();
 void printTeam();
-void printDigit();
+void printDigit(String);
 void printCode(String);
 void correctCode();
 void tryAgain();
@@ -18,6 +19,12 @@ void youWin();
 void bombArmed();
 
 
+void printBluetoothChoice() {
+  lcd.setCursor(3,0);
+  lcd.print("Bluetooth");
+  lcd.setCursor(0,1);
+  lcd.print("A - Yes   D - No");
+  }
 
 void bluetoothConfig(){
   lcd.setCursor(3,0);
@@ -74,9 +81,9 @@ void bombArmed(){
   lcd.print("Bomb Armed!");
 }
 
-void printDigit(char key){
+void printDigit(String code){
   lcd.setCursor(0, 1);
-  lcd.print(key); 
+  lcd.print(code); 
 }
 
 void correctCode(){
