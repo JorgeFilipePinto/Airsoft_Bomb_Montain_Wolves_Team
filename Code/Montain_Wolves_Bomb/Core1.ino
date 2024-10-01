@@ -63,6 +63,11 @@ void core_1(){
     }
     case ReadyToArm: {
 
+
+
+
+
+
       insertCode();
       
       char key = keypad.getKey();
