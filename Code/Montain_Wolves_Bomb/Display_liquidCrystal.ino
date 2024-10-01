@@ -2,7 +2,7 @@
 extern boolean setupFinish;
 extern String code;
 
-void bluetoothConfig();
+void printBluetoothConfig();
 void bombIsReady();
 void availableZone();
 void invalidZone();
@@ -26,7 +26,7 @@ void printBluetoothChoice() {
   lcd.print("A - Yes   D - No");
   }
 
-void bluetoothConfig(){
+void printBluetoothConfig(){
   lcd.setCursor(3,0);
   lcd.print("Bluetooth");
   lcd.setCursor(1,1);

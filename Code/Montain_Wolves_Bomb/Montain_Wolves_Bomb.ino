@@ -39,16 +39,7 @@ uint8_t sinBeat = 0;
 uint8_t sinBeat2 = 0;
 uint8_t sinBeat3 = 0;
 
-enum GameStatus {
-  Configuration,
-  Prepared,
-  ReadyToArm,
-  TryCode,
-  VerifyCode,
-  Disarm,
-  Explode,
-  ExplodeTryArming
-};
+
 
 boolean setupFinish = false;
 String device_name = "Montain_Wolves_Airsoft_Bomb";
@@ -67,13 +58,11 @@ char keys[ROWS][COLS] = {
 
 TaskHandle_t Task2;
 
-extern void bluetoothConfig(BluetoothSerial);
 extern void setup_ori();
 extern void core_1();
 
 BluetoothSerial BT;
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS );
-GameStatus gameStatus = Configuration;
 LCD_I2C lcd(0x27, 16, 2);
 Bomb bomb(30, "0000", 3);
 TinyGPSPlus gps;

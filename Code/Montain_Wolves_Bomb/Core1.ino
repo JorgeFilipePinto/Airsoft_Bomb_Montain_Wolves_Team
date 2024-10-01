@@ -1,5 +1,7 @@
 extern void printBluetoothChoice();
-extern void bluetoothConfig();
+extern void printBluetoothConfig();
+extern void bluetoothConfig(BluetoothSerial);
+extern void manuallyConfig();
 extern void invalidZone();
 extern void availableZone();
 extern void insertCode();
@@ -11,6 +13,7 @@ extern void printDigit(String);
 extern void printCode(String);
 extern void bombExploded();
 extern void bombExplodedToArming();
+extern boolean bombClock();
 void core_1();
 
 boolean discovoredCode = false;
@@ -25,6 +28,19 @@ unsigned long int bombTime_millisAnterior = 0;
 unsigned long int clock_millisAnterior = 0;
 int count = 0;
 
+enum GameStatus {
+  Configuration,
+  Prepared,
+  ReadyToArm,
+  TryCode,
+  VerifyCode,
+  Disarm,
+  Explode,
+  ExplodeTryArming
+};
+
+GameStatus gameStatus = Configuration;
+
 void core_1(){
 
   switch(gameStatus){
@@ -35,15 +51,12 @@ void core_1(){
         lcd.clear();
         String message = "";
         Serial.println("Bluetooth configuration!");
-        bluetoothConfig();
+        printBluetoothConfig();
         bluetoothConfig(BT);
-        gameStatus = Prepared;
         lcd.clear();
+        gameStatus = Prepared;
       }else if (key == 'D'){
-        bomb.time = 120000;
-        bomb.tries = 3;
-        bomb.tryArming = 3;
-        bomb.code = "123";
+        manuallyConfig();
         lcd.clear();
         gameStatus = Prepared;
       }
@@ -62,11 +75,6 @@ void core_1(){
       break;
     }
     case ReadyToArm: {
-
-
-
-
-
 
       insertCode();
       
@@ -103,7 +111,7 @@ void core_1(){
           }else { 
             code = "";
           }
-        }else{
+        }else  if (key != 'C' && key != 'D' && key != 'A' && key != 'B' && key !='*' && key != '#') {
           code += key;
           codeSize++;
           Serial.print("Digit Insert "); Serial.println(key);
@@ -114,21 +122,8 @@ void core_1(){
       break;
     }
     case TryCode: {
-      if (millis() - bombTime_millisAnterior >= bomb.time){
+      if (bombClock()) {
         gameStatus = Explode;
-      }else if (millis() - clock_millisAnterior >= 1000){
-        clock_millisAnterior = millis();
-        secondsAnterior--;
-        lcd.setCursor(4, 1);
-        lcd.print(minutesAnterior);
-        lcd.print(":");
-        lcd.print(secondsAnterior);
-        count++;
-        if(count == 60){
-          secondsAnterior = 59;
-          minutesAnterior--;
-          count = 0;
-        }
       }
       bombArmed();
       char key = keypad.getKey();
@@ -146,7 +141,7 @@ void core_1(){
           }else{
             secondCode = "";
           }
-          }else{
+          }else if (key != 'C' && key != 'D' && key != 'A' && key != 'B' && key !='*' && key != '#'){
             secondCode += key;
             Serial.print("Digit Insert "); Serial.println(key);
             secondCodeSize++;
