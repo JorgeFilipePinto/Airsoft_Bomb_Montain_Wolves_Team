@@ -1,7 +1,7 @@
 extern void printBluetoothChoice();
 extern void printBluetoothConfig();
 extern void bluetoothConfig(BluetoothSerial);
-extern void manuallyConfigured();
+extern boolean manuallyConfigured();
 extern void invalidZone();
 extern void availableZone();
 extern void insertCode();
@@ -13,7 +13,6 @@ extern void printDigit(String);
 extern void printCode(String);
 extern void bombExploded();
 extern void bombExplodedToArming();
-extern boolean bombClock();
 void core_1();
 
 boolean discovoredCode = false;
@@ -57,6 +56,7 @@ void core_1(){
         gameStatus = Prepared;
       }else if (key == 'D'){
         lcd.clear();
+        manuallyConfigured();
         gameStatus = Prepared;
       }
 
@@ -84,8 +84,6 @@ void core_1(){
             Serial.println("Codigo inserido com sucesso!");
             Serial.print("code size "); Serial.println(codeSize);
             gameStatus = TryCode;
-            bombTime_millisAnterior = millis();
-            clock_millisAnterior = millis();
             lcd.clear();
           }else{
             lcd.clear();
@@ -121,9 +119,6 @@ void core_1(){
       break;
     }
     case TryCode: {
-      if (bombClock()) {
-        gameStatus = Explode;
-      }
       bombArmed();
       char key = keypad.getKey();
       if (key){
@@ -176,6 +171,7 @@ void core_1(){
 
       delay(10000);
       gameStatus = ReadyToArm;
+      ESP.restart();
       break;
     }
     case Explode: {
@@ -184,6 +180,7 @@ void core_1(){
 
       delay(10000);
       gameStatus = ReadyToArm;
+      ESP.restart();
       break;
     }
     case ExplodeTryArming: {
@@ -191,6 +188,7 @@ void core_1(){
 
       delay(10000);
       gameStatus = ReadyToArm;
+      ESP.restart();
       break;
     }
     default: {
@@ -198,6 +196,4 @@ void core_1(){
       break;
     }
   }
-
-
 }

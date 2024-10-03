@@ -43,7 +43,7 @@ uint8_t sinBeat3 = 0;
 
 boolean setupFinish = false;
 String device_name = "Montain_Wolves_Airsoft_Bomb";
-boolean manuallyConfigured = false;
+boolean Configured = false;
 boolean bluetoothConfigured = false;
 const byte ROWS = 4; //four rows
 const byte COLS = 4; //three columns

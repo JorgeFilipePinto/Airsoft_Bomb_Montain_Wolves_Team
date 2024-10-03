@@ -3,6 +3,11 @@ extern boolean setupFinish;
 extern String code;
 
 void printBluetoothConfig();
+void printPlayers();
+void printTimeGame();
+void printTimeBomb();
+void printBombCode();
+void printConfirmConfig();
 void bombIsReady();
 void availableZone();
 void invalidZone();
@@ -31,6 +36,33 @@ void printBluetoothConfig(){
   lcd.print("Bluetooth");
   lcd.setCursor(1,1);
   lcd.print("Configuration!");
+}
+
+void printPlayers() {
+  lcd.setCursor(0,0);
+  lcd.print("Players Number");
+}
+
+void printTimeGame() {
+  lcd.setCursor(0,0);
+  lcd.print("Time Game");
+}
+
+void printTimeBomb() {
+  lcd.setCursor(0,0);
+  lcd.print("Time Bomb");
+}
+
+void printBombCode() {
+  lcd.setCursor(0,0);
+  lcd.print("Bomb Code");
+}
+
+void printConfirmConfig(){
+  lcd.setCursor(0,0);
+  lcd.print("Confirm?");
+  lcd.setCursor(0,1);
+  lcd.print("D - Yes   C - No");
 }
 
 void bombIsReady(){
@@ -81,9 +113,9 @@ void bombArmed(){
   lcd.print("Bomb Armed!");
 }
 
-void printDigit(String code){
+void printDigit(String digit){
   lcd.setCursor(0, 1);
-  lcd.print(code); 
+  lcd.print(digit); 
 }
 
 void correctCode(){
