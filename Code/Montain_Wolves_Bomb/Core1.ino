@@ -1,7 +1,7 @@
 extern void printBluetoothChoice();
 extern void printBluetoothConfig();
 extern void bluetoothConfig(BluetoothSerial);
-extern void manuallyConfig();
+extern void manuallyConfigured();
 extern void invalidZone();
 extern void availableZone();
 extern void insertCode();
@@ -56,7 +56,6 @@ void core_1(){
         lcd.clear();
         gameStatus = Prepared;
       }else if (key == 'D'){
-        manuallyConfig();
         lcd.clear();
         gameStatus = Prepared;
       }

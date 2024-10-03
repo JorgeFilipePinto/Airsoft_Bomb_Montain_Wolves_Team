@@ -1,5 +1,10 @@
+extern boolean bluetoothConfigured;
 extern void bombIsReady();
+
+
 void bluetoothConfig(BluetoothSerial);
+
+
 
 void bluetoothConfig(BluetoothSerial BT){
   String message = "";
