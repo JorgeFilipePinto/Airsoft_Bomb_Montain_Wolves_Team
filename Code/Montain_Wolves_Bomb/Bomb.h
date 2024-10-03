@@ -17,8 +17,13 @@ class Bomb{
     boolean sound;
     boolean leds;
     boolean smoke;
-    Bomb(int time, String code, int tries);
-    boolean checkCode(String code);
+    Bomb(int, String, int);
+    void gametime(int);
+    void setTimeBomb(int);
+    void setCode(String);
+    boolean rigthSize(String);
+    void setPlayers(int);
+    boolean checkCode(String);
     boolean isExplode();
     int getSize();
     boolean isValidZone();

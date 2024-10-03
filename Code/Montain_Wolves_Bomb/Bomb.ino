@@ -47,4 +47,24 @@ boolean Bomb::isValidZone(){
     return false;
   }
 };
+void Bomb::gametime(int time){
+  this->gameTime = time;
+}
+void Bomb::setTimeBomb(int time){
+  this->time = time;
+};
+
+void Bomb::setCode(String code){
+ this->code = code;
+};
+
+boolean Bomb::rigthSize(String code){
+  if (code.length() == this->players){
+    return true;
+  }else { return false;}
+}
+
+void Bomb::setPlayers(int players){
+  this->players = players;
+};
 
