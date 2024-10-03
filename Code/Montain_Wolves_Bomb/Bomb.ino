@@ -18,6 +18,31 @@ Bomb::Bomb(int time, String code, int tries){
   this->maxDistance = 20.0;
 };
 
+
+String Bomb::checkGPS(){
+  if (this->gps){
+    return "Enable";
+  }else {return "Disable";}
+}
+
+String Bomb::checkLeds() {
+  if (this->leds){
+    return "Enable";
+  }else {return "Disable";}
+}
+
+String Bomb::checkSound() {
+  if (this->sound){
+    return "Enable";
+  }else {return "Disable";}
+}
+
+String Bomb::checkSmoke() {
+  if (this->smoke){
+    return "Enable";
+  }else {return "Disable";}
+}
+
 boolean Bomb::checkCode(String trycode){
   if (trycode == this->code){
     return true;

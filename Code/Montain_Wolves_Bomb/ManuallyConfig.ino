@@ -5,6 +5,10 @@ extern void printTimeGame();
 extern void printTimeBomb();
 extern void printBombCode();
 extern void printDigit(String);
+extern void printSmoke(String);
+extern void printSound(String);
+extern void printLeds(String);
+extern void printGPS(String);
 extern void printConfirmConfig();
 
 enum Config {
@@ -12,10 +16,11 @@ enum Config {
   TimeGame,
   TimeBomb,
   BombCode,
-  Confirm,
   GPS,
   Leds,
-  Sound
+  Sound,
+  Smoke,
+  Confirm
 };
 
 
@@ -26,6 +31,7 @@ boolean manuallyConfigured(){
   String _timeGame = "30";
   String _timeBomb = "15";
   String _code = "";
+
   char key;
   while (!Configured) {
     switch(config){
@@ -115,22 +121,85 @@ boolean manuallyConfigured(){
             }
           if (key == 'D' && _code.length() > 0 && _code.length() == _players.toInt()) {
             bomb.code = _code;
-            config = Confirm;
+            config = GPS;
             lcd.clear();
             }
           }
           break;
         }
         case GPS: {
-
+          printGPS(bomb.checkGPS());
+          key = keypad.getKey();
+          if (key) {
+            if (key == 'B') {
+              lcd.clear();
+              bomb.gps = false;
+            }
+            if (key == 'A') {
+              lcd.clear();
+              bomb.gps = true; 
+              config = Leds;
+            }
+            if (key == 'D') {
+              config = Leds;
+            }
+          }
           break;
         }
         case Leds: {
-
+          printLeds(bomb.checkLeds());
+          key = keypad.getKey();
+          if (key) {
+            if (key == 'B') {
+              lcd.clear();
+              bomb.leds = false;
+            }
+            if (key == 'A') {
+              lcd.clear();
+              bomb.leds = true; 
+              config = Sound;
+            }
+            if (key == 'D') {
+              config = Sound;
+            }
+          }
           break;
         }
         case Sound: {
-
+          printSound(bomb.checkSound());
+          key = keypad.getKey();
+          if (key) {
+            if (key == 'B') {
+              lcd.clear();
+              bomb.sound = false;
+            }
+            if (key == 'A') {
+              lcd.clear();
+              bomb.sound = true; 
+              config = Smoke;
+            }
+            if (key == 'D') {
+              config = Smoke;
+            }
+          }
+          break;
+        }
+        case Smoke: {
+          printSmoke(bomb.checkSmoke());
+          key = keypad.getKey();
+          if (key) {
+            if (key == 'B') {
+              lcd.clear();
+              bomb.smoke = false;
+            }
+            if (key == 'A') {
+              lcd.clear();
+              bomb.smoke = true; 
+            }
+            if (key == 'D') {
+              config = Confirm;
+            }
+          }
           break;
         }
         case Confirm: {

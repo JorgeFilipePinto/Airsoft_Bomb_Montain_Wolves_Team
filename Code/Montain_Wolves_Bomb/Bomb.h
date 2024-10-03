@@ -17,6 +17,10 @@ class Bomb{
     boolean sound;
     boolean leds;
     boolean smoke;
+    String checkGPS();
+    String checkLeds();
+    String checkSound();
+    String checkSmoke();
     Bomb(int time, String code, int tries);
     boolean checkCode(String code);
     boolean isExplode();

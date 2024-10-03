@@ -7,6 +7,10 @@ void printPlayers();
 void printTimeGame();
 void printTimeBomb();
 void printBombCode();
+void printSmoke(String);
+void printSound(String);
+void printLeds(String);
+void printGPS(String);
 void printConfirmConfig();
 void bombIsReady();
 void availableZone();
@@ -56,6 +60,44 @@ void printTimeBomb() {
 void printBombCode() {
   lcd.setCursor(0,0);
   lcd.print("Bomb Code");
+}
+
+void printGPS(String status){
+  lcd.setCursor(0,0);
+  lcd.print("GPS?");
+  lcd.setCursor(9,0);
+  lcd.print(status);
+  lcd.setCursor(0,1);
+  lcd.print("A - Yes   B - No");
+}
+
+void printLeds(String status){
+  lcd.setCursor(0,0);
+  lcd.print("Leds?");
+   lcd.setCursor(9,0);
+  lcd.print(status);
+  lcd.setCursor(0,1);
+  lcd.print("A - Yes   B - No");
+
+}
+
+void printSound(String status){
+  lcd.setCursor(0,0);
+  lcd.print("Sound?");
+   lcd.setCursor(9,0);
+  lcd.print(status);
+  lcd.setCursor(0,1);
+  lcd.print("A - Yes   B - No");
+
+}
+
+void printSmoke(String status){
+  lcd.setCursor(0,0);
+  lcd.print("Smoke?");
+   lcd.setCursor(9,0);
+  lcd.print(status);
+  lcd.setCursor(0,1);
+  lcd.print("A - Yes   B - No");
 }
 
 void printConfirmConfig(){
