@@ -1,12 +1,13 @@
-#include<Wire.h>
+#include <Wire.h>
 #include "BluetoothSerial.h"
 #include <LCD-I2C.h>
 #include <Keypad.h>
-#include"Bomb.h"
+#include "Bomb.h"
 #include <Adafruit_SSD1306.h>
 #include <TinyGPS++.h>
 #include <FastLED.h>
 #include "paletas.h"
+#include <fxbargraph.h>
 
 // Check if Bluetooth is available
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
@@ -68,6 +69,9 @@ LCD_I2C lcd(0x27, 16, 2);
 Bomb bomb(30, "0000", 3);
 TinyGPSPlus gps;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+// display,x,y,width,id,maxvalue
+fxBargraph bar(lcd, 0, 0, 16, 0, 1023);
 
 void setup() {
 

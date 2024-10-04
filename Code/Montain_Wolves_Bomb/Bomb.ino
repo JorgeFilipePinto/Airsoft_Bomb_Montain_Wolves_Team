@@ -7,7 +7,7 @@ Bomb::Bomb(int time, String code, int tries){
   this->tryArming = 3;
   this->code = code;
   this->players = 0;
-  this->gameTime = 30000;
+  this->gameTime = 30 * 60000;
   this->gps = false;
   this->sound = false;
   this->leds = false;
@@ -59,6 +59,21 @@ boolean Bomb::isExplode(){
     return false;
   }
 };
+
+boolean Bomb::finishGame(unsigned long timeInit) {
+  if (millis() - timeInit >= this->gameTime){
+    return true;
+  }
+  return false;
+}
+
+
+boolean Bomb::isTimeOut(unsigned long timeInit) {
+  if (millis() - timeInit >= this->time){
+    return true;
+  }
+  return false;
+}
 
 int Bomb::getSize(){
   int size = this->code.length();

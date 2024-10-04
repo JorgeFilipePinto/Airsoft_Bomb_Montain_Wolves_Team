@@ -27,6 +27,7 @@ void bombExploded();
 void bombExplodedToArming();
 void youWin();
 void bombArmed();
+void printClock(int, int);
 void restart();
 
 
@@ -84,7 +85,7 @@ void printLeds(String status){
 }
 
 void printSound(String status){
-  lcd.setCursor(0,0);
+  lcd.setCursor(5,0);
   lcd.print("Sound?");
    lcd.setCursor(9,0);
   lcd.print(status);
@@ -103,7 +104,7 @@ void printSmoke(String status){
 }
 
 void printConfirmConfig(){
-  lcd.setCursor(0,0);
+  lcd.setCursor(4,0);
   lcd.print("Confirm?");
   lcd.setCursor(0,1);
   lcd.print("D - Yes   C - No");
@@ -157,6 +158,13 @@ void bombArmed(){
   lcd.print("Bomb Armed!");
 }
 
+void printClock(int min, int sec){
+  lcd.setCursor(4,1);
+  lcd.print(String(min));
+  lcd.print(" : ");
+  lcd.print(String(sec));
+}
+
 void printDigit(String digit){
   lcd.setCursor(0, 1);
   lcd.print(digit); 
@@ -201,9 +209,9 @@ void youWin(){
 
 
 void restart() {
-  lcd.setCursor(0,0);
+  lcd.setCursor(5,0);
   lcd.print("Restart");
-  lcd.setCursor(0,1);
+  lcd.setCursor(9,1);
   lcd.print("Press D");
 }
 

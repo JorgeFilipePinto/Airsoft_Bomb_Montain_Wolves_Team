@@ -25,6 +25,8 @@ class Bomb{
     Bomb(int time, String code, int tries);
     boolean checkCode(String code);
     boolean isExplode();
+    boolean finishGame(unsigned long);
+    boolean isTimeOut(unsigned long);
     int getSize();
     boolean isValidZone();
 

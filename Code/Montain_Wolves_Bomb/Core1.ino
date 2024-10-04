@@ -175,19 +175,28 @@ void core_1(){
     case Disarm: {
       youWin();
       Serial.println("YOU WIN!");
-      gameStatus = restart;
+      for(int i = 0; i<0; i+=100){
+        bar.setValue(i);
+        delay(1000);
+      }
+      //delay(1 * 60000);
+      //delay(5 * 60000);
+      gameStatus = Restart;
       break;
     }
     case Explode: {
       bombExploded();
       Serial.println("Bomb Exploded");
-      gameStatus = restart;
+      delay(1 * 60000);
+      //delay(5 * 60000);
+      gameStatus = Restart;
       break;
     }
     case ExplodeTryArming: {
       bombExplodedToArming();
-      delay()
-      gameStatus = restart;
+      delay(1 * 60000);
+      //delay(5 * 60000);
+      gameStatus = Restart;
       break;
     }
     case Restart: {
