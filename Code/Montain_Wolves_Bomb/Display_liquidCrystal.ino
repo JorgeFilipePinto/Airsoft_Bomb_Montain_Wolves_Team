@@ -29,6 +29,19 @@ void youWin();
 void bombArmed();
 void printClock(int, int);
 void restart();
+void printBarChar();
+
+
+uint8_t barChar[8] = {
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  };
 
 
 void printBluetoothChoice() {
@@ -207,12 +220,16 @@ void youWin(){
   lcd.print("YOU WIN!");
 }
 
-
 void restart() {
   lcd.setCursor(5,0);
   lcd.print("Restart");
   lcd.setCursor(9,1);
   lcd.print("Press D");
+}
+
+void printBarChar(){
+  lcd.createChar(0, barChar);
+  lcd.write(0);
 }
 
 
