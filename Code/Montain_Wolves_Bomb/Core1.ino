@@ -68,13 +68,14 @@ void core_1(){
       break;
     }
     case Prepared: {
+      double coordinates = TinyGPSPlus::distanceBetween(gps.location.lat(), gps.location.lng(), bomb.latZone, bomb.longZone);
       if(bomb.isValidZone()){
         availableZone();
-        lcd.clear();
-        gameStatus = ReadyToArm;  
+        //gameStatus = ReadyToArm;  
       }else{
+        lcd.setCursor(0,0);
+        Serial.println(coordinates);
         invalidZone();
-        lcd.clear();
       }
       break;
     }
@@ -123,6 +124,7 @@ void core_1(){
       break;
     }
     case TryCode: {
+      printDigit(secondCode);
       Serial.println(bomb.time);
       bombArmed();
       if (bomb.time > 0) {
@@ -137,7 +139,7 @@ void core_1(){
           bomb.time -= 1000;
           lcd.clear();
         }
-        if (timeMin > 0 && timeSec > 0){
+        if (timeMin > 0 || timeSec > 0){
           printClock(timeMin, timeSec);
         }
       }else {
@@ -187,6 +189,7 @@ void core_1(){
         wrongCode();
         tryAgain();
         bomb.tries--;
+        delay(5 * 1000);
         //Serial.println("Try Again!!");
         secondCodeSize = 0;
         secondCode = "";
@@ -198,7 +201,7 @@ void core_1(){
     case Disarm: {
       youWin();
       Serial.println("YOU WIN!");
-      //delay(1 * 60000);
+      delay(5 * 1000);
       //delay(5 * 60000);
       gameStatus = Restart;
       break;
@@ -206,14 +209,14 @@ void core_1(){
     case Explode: {
       bombExploded();
       //Serial.println("Bomb Exploded");
-      delay(1 * 60000);
+      delay(2 * 60000);
       //delay(5 * 60000);
       gameStatus = Restart;
       break;
     }
     case ExplodeTryArming: {
       bombExplodedToArming();
-      delay(1 * 60000);
+      delay(5 * 1000);
       //delay(5 * 60000);
       gameStatus = Restart;
       break;

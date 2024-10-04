@@ -98,7 +98,7 @@ void printLeds(String status){
 }
 
 void printSound(String status){
-  lcd.setCursor(5,0);
+  lcd.setCursor(0,0);
   lcd.print("Sound?");
    lcd.setCursor(9,0);
   lcd.print(status);
@@ -167,12 +167,12 @@ void insertCode(){
 
 
 void bombArmed(){
-  lcd.setCursor(2,0);
-  lcd.print("Bomb Armed!");
+  lcd.setCursor(0,0);
+  lcd.print("Armed");
 }
 
 void printClock(int timeMin, int timeSec){
-  lcd.setCursor(5, 1); // Or setting the cursor in the desired position.
+  lcd.setCursor(11, 0); // Or setting the cursor in the desired position.
   if (timeMin < 10){
     lcd.print("0");  
   }

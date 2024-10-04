@@ -6,12 +6,12 @@ void print_speed();
 
 void printData(){
   Serial.println(gps.satellites.value());
-  Serial.print("LAT=");  Serial.println(gps.location.lat(), 6);
+  /*Serial.print("LAT=");  Serial.println(gps.location.lat(), 6);
   Serial.print("LONG="); Serial.println(gps.location.lng(), 6);
   Serial.print("ALT=");  Serial.println(gps.altitude.meters());
   Serial.print("Time= "); Serial.print(gps.time.hour() + fuseTime); Serial.print(":"); Serial.println(gps.time.minute());
   Serial.print("Date= "); Serial.println(gps.date.value());
-  Serial.print("Hdop value: "); Serial.println(gps.hdop.value());
+  Serial.print("Hdop value: "); Serial.println(gps.hdop.value());*/
   print_speed();
 }
 

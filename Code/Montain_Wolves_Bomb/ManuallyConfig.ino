@@ -17,6 +17,7 @@ enum Config {
   TimeBomb,
   BombCode,
   GPS,
+  Coordenates,
   Leds,
   Sound,
   Smoke,
@@ -142,6 +143,10 @@ boolean manuallyConfigured(){
               lcd.clear();
             }
           }
+          break;
+        }
+        case Coordenates: {
+         
           break;
         }
         case Leds: {

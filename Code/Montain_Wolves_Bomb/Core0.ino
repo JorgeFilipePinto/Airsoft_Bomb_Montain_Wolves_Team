@@ -6,13 +6,19 @@ extern void printNoData();
 void gpsTracker(void * pvParameters){
   for(;;){
 
-    menuCore0();
+    //menuCore0();
 
-    boolean newData = false;
-    for (unsigned long start = millis(); millis() - start < 1000;)
+  boolean newData = false;
+  for (unsigned long start = millis(); millis() - start < 1000;)
+  {
+    while (neogps.available())
     {
-      getData(newData);
+      if (gps.encode(neogps.read()))
+      {
+        newData = true;
+      }
     }
+  }
     //If newData is true
     if(newData == true)
     {

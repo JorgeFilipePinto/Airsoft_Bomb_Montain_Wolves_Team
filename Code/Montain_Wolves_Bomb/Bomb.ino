@@ -13,9 +13,9 @@ Bomb::Bomb(int time, String code, int tries){
   this->leds = false;
   this->smoke = false;
   this->speedLight[4] = 20, 50, 100, 255;
-  this->latZone = 0.0;
-  this->longZone = 0.0;
-  this->maxDistance = 20.0;
+  this->latZone = 40.769726;
+  this->longZone = -8.027784;
+  this->maxDistance = 10.0;
   this->codeDiscovered = false;
 };
 
@@ -81,7 +81,7 @@ int Bomb::getSize(){
 };
 
 boolean Bomb::isValidZone(){
-  double distance = getDistance(bomb.latZone, bomb.latZone);
+  double distance = getDistance(this->latZone, this->longZone);
   if(distance <= bomb.maxDistance){
     return true;
   }else{
