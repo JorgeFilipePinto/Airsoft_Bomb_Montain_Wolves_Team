@@ -33,13 +33,13 @@ void bluetoothConfig(BluetoothSerial BT){
 
   if (message.substring(0,4) == "TIME")
   {
-    bomb.time = message.substring(4).toInt() * 1000;
+    bomb.time = message.substring(4).toInt() * 60000;
     Serial.print("\nGame Time: "); Serial.println(bomb.time);
     lcd.clear();
     lcd.setCursor(3,0);
     lcd.print("Bomb Time");
     lcd.setCursor(2, 1);
-    lcd.print(String(bomb.time / 1000));
+    lcd.print(String(bomb.time / 60000));
     lcd.setCursor(5, 1);
     lcd.print("Minutes");
   }

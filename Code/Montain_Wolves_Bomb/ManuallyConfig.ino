@@ -72,7 +72,7 @@ boolean manuallyConfigured(){
               printDigit(_timeGame);
             }
             if (key == 'D' && _timeGame.length() > 0) {
-              bomb.gameTime = _timeGame.toInt();
+              bomb.gameTime = _timeGame.toInt() * 60000;
               config = TimeBomb;
               lcd.clear();
             }
@@ -95,7 +95,7 @@ boolean manuallyConfigured(){
             printDigit(_timeBomb);
           }
           if (key == 'D' && _timeBomb.length() > 0) {
-            bomb.time = _timeBomb.toInt();
+            bomb.time = _timeBomb.toInt() * 60000;
             config = BombCode;
             lcd.clear();
           }

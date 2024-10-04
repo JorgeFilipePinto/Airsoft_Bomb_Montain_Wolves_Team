@@ -36,7 +36,8 @@ enum GameStatus {
   VerifyCode,
   Disarm,
   Explode,
-  ExplodeTryArming
+  ExplodeTryArming,
+  Restart
 };
 
 GameStatus gameStatus = Configuration;
@@ -151,6 +152,7 @@ void core_1(){
         bomb.codeDiscovered = true;
         Serial.println("correct code!");
         gameStatus = Disarm;
+        lcd.clear();
       } else if (bomb.tries == 0){
         lcd.clear();
         bomb.codeDiscovered = false;
@@ -171,39 +173,31 @@ void core_1(){
       break;
     }
     case Disarm: {
-      char key = keypad.getKey();
       youWin();
       Serial.println("YOU WIN!");
-      if (key) {
-        restart();
-        if (key == 'D') {
-          ESP.restart();
-        }
-      }
+      gameStatus = restart;
       break;
     }
     case Explode: {
-      char key = keypad.getKey();
       bombExploded();
       Serial.println("Bomb Exploded");
-      if (key) {
-        restart();
-        if (key == 'D') {
-          ESP.restart();
-        }
-      }
+      gameStatus = restart;
       break;
     }
     case ExplodeTryArming: {
-      char key = keypad.getKey();
       bombExplodedToArming();
+      delay()
+      gameStatus = restart;
+      break;
+    }
+    case Restart: {
+      char key = keypad.getKey();
+      restart();
       if (key) {
-        restart();
         if (key == 'D') {
           ESP.restart();
         }
       }
-      break;
     }
     default: {
       Serial.println("Something wrong!!");
