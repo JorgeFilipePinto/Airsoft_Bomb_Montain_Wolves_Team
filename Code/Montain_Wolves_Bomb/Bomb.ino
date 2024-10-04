@@ -16,6 +16,7 @@ Bomb::Bomb(int time, String code, int tries){
   this->latZone = 0.0;
   this->longZone = 0.0;
   this->maxDistance = 20.0;
+  this->codeDiscovered = false;
 };
 
 

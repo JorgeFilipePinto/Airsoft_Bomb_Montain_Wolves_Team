@@ -1,6 +1,5 @@
 extern boolean setupFinish;
 extern GameStatus gameStatus;
-extern boolean discovoredCode;
 extern unsigned long int bombTime_millisAnterior;
 extern void fillSolidColor(CRGB);
 void menuCore0();
@@ -35,7 +34,7 @@ void menuCore0(){
       break;
     }
     case VerifyCode: {
-      if(discovoredCode){
+      if(bomb.codeDiscovered){
         fillSolidColor(CRGB::Green);
       }else{
         fillSolidColor(CRGB::Red);

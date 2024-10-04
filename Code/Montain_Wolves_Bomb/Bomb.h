@@ -12,6 +12,7 @@ class Bomb{
     double latZone;
     double longZone;
     double maxDistance;
+    boolean codeDiscovered;
     String code;
     boolean gps;
     boolean sound;

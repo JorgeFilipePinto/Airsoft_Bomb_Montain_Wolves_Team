@@ -6,6 +6,7 @@ extern void invalidZone();
 extern void availableZone();
 extern void insertCode();
 extern void correctCode();
+extern void wrongCode();
 extern void tryAgain();
 extern void youWin();
 extern void bombArmed();
@@ -13,9 +14,9 @@ extern void printDigit(String);
 extern void printCode(String);
 extern void bombExploded();
 extern void bombExplodedToArming();
+extern void restart();
 void core_1();
 
-boolean discovoredCode = false;
 String code = "";
 String secondCode = "";
 int codeSize = 0;
@@ -54,12 +55,12 @@ void core_1(){
         bluetoothConfig(BT);
         lcd.clear();
         gameStatus = Prepared;
-      }else if (key == 'D'){
+      }
+      if (key == 'D'){
         lcd.clear();
         manuallyConfigured();
         gameStatus = Prepared;
       }
-
       break;
     }
     case Prepared: {
@@ -74,12 +75,11 @@ void core_1(){
       break;
     }
     case ReadyToArm: {
-
       insertCode();
-      
+
       char key = keypad.getKey();
       if(key){
-        if(key == 'D' & bomb.tryArming > 0){
+        if(key == 'D' && bomb.tryArming > 0 && codeSize > 0){
           if(code == bomb.code){
             Serial.println("Codigo inserido com sucesso!");
             Serial.print("code size "); Serial.println(codeSize);
@@ -98,7 +98,7 @@ void core_1(){
               delay(5000);
               }
             }
-        }else if (key == 'C' & codeSize > 0){
+        }else if (key == 'C' && codeSize > 0){
           lcd.clear();
           codeSize--;
           if (codeSize > 0) {
@@ -108,11 +108,10 @@ void core_1(){
           }else { 
             code = "";
           }
-        }else  if (key != 'C' && key != 'D' && key != 'A' && key != 'B' && key !='*' && key != '#') {
+        }else  if (isNum(key)) {
           code += key;
           codeSize++;
           Serial.print("Digit Insert "); Serial.println(key);
-
           printDigit(code);
         }
       }
@@ -122,10 +121,10 @@ void core_1(){
       bombArmed();
       char key = keypad.getKey();
       if (key){
-        if (key == 'D' & secondCodeSize > 0){
+        if (key == 'D' && secondCodeSize > 0){
           gameStatus = VerifyCode;
           lcd.clear();
-        }else if (key == 'C' & secondCodeSize > 0){
+        }else if (key == 'C' && secondCodeSize > 0){
           lcd.clear();
           secondCodeSize--;
           if (secondCodeSize > 0) {
@@ -135,7 +134,7 @@ void core_1(){
           }else{
             secondCode = "";
           }
-          }else if (key != 'C' && key != 'D' && key != 'A' && key != 'B' && key !='*' && key != '#'){
+          }else if (isNum(key)){
             secondCode += key;
             Serial.print("Digit Insert "); Serial.println(key);
             secondCodeSize++;
@@ -146,49 +145,64 @@ void core_1(){
       break;
     }
     case VerifyCode: {
-      discovoredCode = bomb.checkCode(secondCode);
-      if(discovoredCode){
+      if(bomb.checkCode(secondCode)){
+        lcd.clear();
         correctCode();
+        bomb.codeDiscovered = true;
         Serial.println("correct code!");
         gameStatus = Disarm;
       } else if (bomb.tries == 0){
+        lcd.clear();
+        bomb.codeDiscovered = false;
         gameStatus = Explode;
       }else{
+        lcd.clear();
+        bomb.codeDiscovered = false;
+        wrongCode();
         tryAgain();
         bomb.tries--;
         Serial.println("Try Again!!");
-        codeSize = 0;
-        gameStatus = TryCode;
+        secondCodeSize = 0;
         secondCode = "";
         delay(5000);
         lcd.clear();
+        gameStatus = TryCode;
       }
       break;
     }
     case Disarm: {
+      char key = keypad.getKey();
       youWin();
       Serial.println("YOU WIN!");
-
-      delay(10000);
-      gameStatus = ReadyToArm;
-      ESP.restart();
+      if (key) {
+        restart();
+        if (key == 'D') {
+          ESP.restart();
+        }
+      }
       break;
     }
     case Explode: {
+      char key = keypad.getKey();
       bombExploded();
       Serial.println("Bomb Exploded");
-
-      delay(10000);
-      gameStatus = ReadyToArm;
-      ESP.restart();
+      if (key) {
+        restart();
+        if (key == 'D') {
+          ESP.restart();
+        }
+      }
       break;
     }
     case ExplodeTryArming: {
+      char key = keypad.getKey();
       bombExplodedToArming();
-
-      delay(10000);
-      gameStatus = ReadyToArm;
-      ESP.restart();
+      if (key) {
+        restart();
+        if (key == 'D') {
+          ESP.restart();
+        }
+      }
       break;
     }
     default: {

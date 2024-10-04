@@ -21,11 +21,13 @@ void printTeam();
 void printDigit(String);
 void printCode(String);
 void correctCode();
+void wrongCode();
 void tryAgain();
 void bombExploded();
 void bombExplodedToArming();
 void youWin();
 void bombArmed();
+void restart();
 
 
 void printBluetoothChoice() {
@@ -163,8 +165,11 @@ void printDigit(String digit){
 void correctCode(){
   lcd.setCursor(1,0);
   lcd.print("Correct Code!");
-  delay(5000);
-  lcd.clear();
+}
+
+void wrongCode(){
+  lcd.setCursor(1,0);
+  lcd.print("Wrong Code!");
 }
 
 void printCode(String code){
@@ -173,7 +178,7 @@ void printCode(String code){
 }
 
 void tryAgain(){
-  lcd.setCursor(3,0);
+  lcd.setCursor(3,1);
   lcd.print("Try Again!!");
 }
 
@@ -192,6 +197,14 @@ void bombExplodedToArming(){
 void youWin(){
   lcd.setCursor(4,0);
   lcd.print("YOU WIN!");
+}
+
+
+void restart() {
+  lcd.setCursor(0,0);
+  lcd.print("Restart");
+  lcd.setCursor(0,1);
+  lcd.print("Press D");
 }
 
 

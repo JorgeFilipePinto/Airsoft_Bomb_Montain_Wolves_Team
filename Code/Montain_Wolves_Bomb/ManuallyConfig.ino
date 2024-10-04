@@ -23,8 +23,6 @@ enum Config {
   Confirm
 };
 
-
-
 boolean manuallyConfigured(){
   Config config = Players;
   String _players = "";
@@ -131,17 +129,17 @@ boolean manuallyConfigured(){
           printGPS(bomb.checkGPS());
           key = keypad.getKey();
           if (key) {
-            if (key == 'B') {
+            if (key == 'B' && bomb.gps) {
               lcd.clear();
               bomb.gps = false;
             }
-            if (key == 'A') {
+            if (key == 'A' && !bomb.gps) {
               lcd.clear();
               bomb.gps = true; 
-              config = Leds;
             }
             if (key == 'D') {
               config = Leds;
+              lcd.clear();
             }
           }
           break;
@@ -150,17 +148,17 @@ boolean manuallyConfigured(){
           printLeds(bomb.checkLeds());
           key = keypad.getKey();
           if (key) {
-            if (key == 'B') {
+            if (key == 'B' && bomb.leds) {
               lcd.clear();
               bomb.leds = false;
             }
-            if (key == 'A') {
+            if (key == 'A' && !bomb.leds) {
               lcd.clear();
               bomb.leds = true; 
-              config = Sound;
             }
             if (key == 'D') {
               config = Sound;
+              lcd.clear();
             }
           }
           break;
@@ -169,17 +167,17 @@ boolean manuallyConfigured(){
           printSound(bomb.checkSound());
           key = keypad.getKey();
           if (key) {
-            if (key == 'B') {
+            if (key == 'B' && bomb.sound) {
               lcd.clear();
               bomb.sound = false;
             }
-            if (key == 'A') {
+            if (key == 'A' && !bomb.sound) {
               lcd.clear();
               bomb.sound = true; 
-              config = Smoke;
             }
             if (key == 'D') {
               config = Smoke;
+              lcd.clear();
             }
           }
           break;
@@ -188,16 +186,17 @@ boolean manuallyConfigured(){
           printSmoke(bomb.checkSmoke());
           key = keypad.getKey();
           if (key) {
-            if (key == 'B') {
+            if (key == 'B' && bomb.smoke) {
               lcd.clear();
               bomb.smoke = false;
             }
-            if (key == 'A') {
+            if (key == 'A' && !bomb.smoke) {
               lcd.clear();
               bomb.smoke = true; 
             }
             if (key == 'D') {
               config = Confirm;
+              lcd.clear();
             }
           }
           break;
