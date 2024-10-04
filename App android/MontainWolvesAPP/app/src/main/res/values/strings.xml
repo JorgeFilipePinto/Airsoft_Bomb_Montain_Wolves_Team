@@ -13,6 +13,8 @@
     <string name="time_of_game">Time</string>
     <string name="num_of_players">Players</string>
     <string name="bomb_code">Bomb Code</string>
+    <string name="game_time">Game Time</string>
+    <string name="send_coordinate">Coordinate</string>
     <string name="send_config">Done</string>
 </resources>
 
