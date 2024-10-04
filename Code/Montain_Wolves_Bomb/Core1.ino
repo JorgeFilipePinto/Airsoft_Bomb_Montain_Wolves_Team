@@ -8,7 +8,7 @@ extern void insertCode();
 extern void correctCode();
 extern void wrongCode();
 extern void tryAgain();
-extern void bombClock(unsigned long);
+extern void bombClock(unsigned long, int, int);
 extern void youWin();
 extern void bombArmed();
 extern void printDigit(String);
@@ -28,6 +28,8 @@ int secondsAnterior = 59;
 unsigned long int bombTime_millisAnterior = 0;
 unsigned long int clock_millisAnterior = 0;
 int count = 0;
+int timeMin;
+int timeSec;
 
 enum GameStatus {
   Configuration,
@@ -83,9 +85,11 @@ void core_1(){
       if(key){
         if(key == 'D' && bomb.tryArming > 0 && codeSize > 0){
           if(code == bomb.code){
-            Serial.println("Codigo inserido com sucesso!");
-            Serial.print("code size "); Serial.println(codeSize);
+            //Serial.println("Codigo inserido com sucesso!");
+            //Serial.print("code size "); Serial.println(codeSize);
             gameStatus = TryCode;
+            timeMin = bomb.time / 60000;
+            timeSec = 0;
             lcd.clear();
           }else{
             lcd.clear();
@@ -104,24 +108,43 @@ void core_1(){
           lcd.clear();
           codeSize--;
           if (codeSize > 0) {
-          String tempCode = code.substring(0, code.length() - 1);
-          code = tempCode;
-          printCode(code);
+            code = code.substring(0, code.length() - 1);
+            printCode(code);
           }else { 
             code = "";
           }
         }else  if (isNum(key)) {
           code += key;
           codeSize++;
-          Serial.print("Digit Insert "); Serial.println(key);
+          //Serial.print("Digit Insert "); Serial.println(key);
           printDigit(code);
         }
       }
       break;
     }
     case TryCode: {
-      bombClock(clock_millisAnterior);
+      Serial.println(bomb.time);
       bombArmed();
+      if (bomb.time > 0) {
+        if (timeSec == 0) {
+          bombTime_millisAnterior = millis();
+          timeMin--;
+          timeSec = 59;
+          lcd.clear();
+        } else if (millis() - bombTime_millisAnterior >= 1000) {
+          bombTime_millisAnterior = millis();
+          timeSec--;
+          bomb.time -= 1000;
+          lcd.clear();
+        }
+        if (timeMin > 0 && timeSec > 0){
+          printClock(timeMin, timeSec);
+        }
+      }else {
+        lcd.clear();
+        gameStatus = Explode;
+      }
+
       char key = keypad.getKey();
       if (key){
         if (key == 'D' && secondCodeSize > 0){
@@ -131,17 +154,16 @@ void core_1(){
           lcd.clear();
           secondCodeSize--;
           if (secondCodeSize > 0) {
-            String tempCode = secondCode.substring(0, secondCode.length() - 1);
-            secondCode = tempCode;
+            secondCode = secondCode.substring(0, secondCode.length() - 1);
             printCode(secondCode);
           }else{
             secondCode = "";
           }
           }else if (isNum(key)){
             secondCode += key;
-            Serial.print("Digit Insert "); Serial.println(key);
+            //Serial.print("Digit Insert "); Serial.println(key);
             secondCodeSize++;
-            Serial.print("Faltam "); Serial.println(secondCodeSize);
+            //Serial.print("Faltam "); Serial.println(secondCodeSize);
             printDigit(secondCode);
         }
       }
@@ -152,7 +174,7 @@ void core_1(){
         lcd.clear();
         correctCode();
         bomb.codeDiscovered = true;
-        Serial.println("correct code!");
+        //Serial.println("correct code!");
         gameStatus = Disarm;
         lcd.clear();
       } else if (bomb.tries == 0){
@@ -165,10 +187,9 @@ void core_1(){
         wrongCode();
         tryAgain();
         bomb.tries--;
-        Serial.println("Try Again!!");
+        //Serial.println("Try Again!!");
         secondCodeSize = 0;
         secondCode = "";
-        delay(5000);
         lcd.clear();
         gameStatus = TryCode;
       }
@@ -184,7 +205,7 @@ void core_1(){
     }
     case Explode: {
       bombExploded();
-      Serial.println("Bomb Exploded");
+      //Serial.println("Bomb Exploded");
       delay(1 * 60000);
       //delay(5 * 60000);
       gameStatus = Restart;
@@ -205,6 +226,7 @@ void core_1(){
           ESP.restart();
         }
       }
+      break;
     }
     default: {
       Serial.println("Something wrong!!");

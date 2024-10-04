@@ -172,8 +172,6 @@ void bombArmed(){
 }
 
 void printClock(int timeMin, int timeSec){
-  lcd.setCursor(5, 0);
-  lcd.print("time"); // You can make spaces using well... spaces
   lcd.setCursor(5, 1); // Or setting the cursor in the desired position.
   if (timeMin < 10){
     lcd.print("0");  

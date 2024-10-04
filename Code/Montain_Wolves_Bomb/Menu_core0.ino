@@ -5,6 +5,8 @@ extern void fillSolidColor(CRGB);
 void menuCore0();
 
 void menuCore0(){
+
+
   while(!setupFinish){
     cor = random(1, 255);
     respiracao(cor, 20);
@@ -26,10 +28,9 @@ void menuCore0(){
       break;
     }
     case TryCode: {
-
         cor = 22;
         respiracao(cor, bomb.speedLight[4]);
-        fillSolidColor(CRGB::Black); 
+        fillSolidColor(CRGB::Black);
 
       break;
     }
