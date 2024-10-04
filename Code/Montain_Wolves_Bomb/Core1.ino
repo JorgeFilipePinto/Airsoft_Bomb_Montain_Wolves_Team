@@ -8,6 +8,7 @@ extern void insertCode();
 extern void correctCode();
 extern void wrongCode();
 extern void tryAgain();
+extern void bombClock(unsigned long);
 extern void youWin();
 extern void bombArmed();
 extern void printDigit(String);
@@ -119,6 +120,7 @@ void core_1(){
       break;
     }
     case TryCode: {
+      bombClock(clock_millisAnterior);
       bombArmed();
       char key = keypad.getKey();
       if (key){
@@ -175,10 +177,6 @@ void core_1(){
     case Disarm: {
       youWin();
       Serial.println("YOU WIN!");
-      for(int i = 0; i<0; i+=100){
-        bar.setValue(i);
-        delay(1000);
-      }
       //delay(1 * 60000);
       //delay(5 * 60000);
       gameStatus = Restart;
