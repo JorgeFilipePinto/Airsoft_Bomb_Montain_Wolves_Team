@@ -68,15 +68,15 @@ void core_1(){
       break;
     }
     case Prepared: {
-      double coordinates = TinyGPSPlus::distanceBetween(gps.location.lat(), gps.location.lng(), bomb.latZone, bomb.longZone);
+      /*double coordinates = TinyGPSPlus::distanceBetween(gps.location.lat(), gps.location.lng(), bomb.latZone, bomb.longZone);
       if(bomb.isValidZone()){
-        availableZone();
-        //gameStatus = ReadyToArm;  
-      }else{
+        availableZone();*/
+        gameStatus = ReadyToArm;  
+      /*}else{
         lcd.setCursor(0,0);
         Serial.println(coordinates);
         invalidZone();
-      }
+      }*/
       break;
     }
     case ReadyToArm: {
@@ -89,6 +89,7 @@ void core_1(){
             //Serial.println("Codigo inserido com sucesso!");
             //Serial.print("code size "); Serial.println(codeSize);
             gameStatus = TryCode;
+            Serial.println("https://www.google.com/maps/place/40.769838,-8.026673");
             timeMin = bomb.time / 60000;
             timeSec = 0;
             lcd.clear();

@@ -22,7 +22,7 @@ class Bomb{
     String checkLeds();
     String checkSound();
     String checkSmoke();
-    Bomb(int time, String code, int tries);
+    Bomb(int, String, int, int, int);
     boolean checkCode(String code);
     boolean isExplode();
     boolean finishGame(unsigned long);

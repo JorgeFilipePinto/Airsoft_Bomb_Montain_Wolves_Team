@@ -1,13 +1,13 @@
 #include"Bomb.h"
 extern double getDIstance(double, double);
 
-Bomb::Bomb(int time, String code, int tries){
+Bomb::Bomb(int time, String code, int tries, int tryArming, int gameTime){
   this->time = time;
   this->tries = tries;
-  this->tryArming = 3;
+  this->tryArming = tryArming;
   this->code = code;
   this->players = 0;
-  this->gameTime = 30 * 60000;
+  this->gameTime = gameTime * 60000;
   this->gps = false;
   this->sound = false;
   this->leds = false;

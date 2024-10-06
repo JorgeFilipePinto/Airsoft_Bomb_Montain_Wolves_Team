@@ -76,6 +76,7 @@ void loop() {
     display.setTextSize(1);
     display.print("Hdop= "); display.print(gps.hdop.value());
     display.display();
+    Serial.println(gps.hdop.value());
   }
 
 }
