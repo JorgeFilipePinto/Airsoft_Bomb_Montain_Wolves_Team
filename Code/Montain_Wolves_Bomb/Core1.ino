@@ -202,7 +202,7 @@ void core_1(){
     case Disarm: {
       youWin();
       Serial.println("YOU WIN!");
-      delay(5 * 1000);
+      delay(2 * 60000);
       //delay(5 * 60000);
       gameStatus = Restart;
       break;
@@ -217,7 +217,7 @@ void core_1(){
     }
     case ExplodeTryArming: {
       bombExplodedToArming();
-      delay(5 * 1000);
+      delay(2 * 60000);
       //delay(5 * 60000);
       gameStatus = Restart;
       break;

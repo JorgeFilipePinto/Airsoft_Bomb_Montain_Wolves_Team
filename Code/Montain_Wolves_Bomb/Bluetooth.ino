@@ -150,10 +150,8 @@ void bluetoothConfig(BluetoothSerial BT){
     lcd.clear();
 
     bombIsReady();
-    
     delay(2000);
     lcd.clear();
-    lcd.backlightOff();
   }
   delay(50);
   }
