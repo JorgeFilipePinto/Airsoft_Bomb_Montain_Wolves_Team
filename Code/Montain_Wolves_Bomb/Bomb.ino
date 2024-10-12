@@ -12,7 +12,6 @@ Bomb::Bomb(int time, String code, int tries, int tryArming, int gameTime){
   this->sound = false;
   this->leds = false;
   this->smoke = false;
-  this->speedLight[4] = 20, 50, 100, 255;
   this->latZone = 40.769726;
   this->longZone = -8.027784;
   this->maxDistance = 10.0;

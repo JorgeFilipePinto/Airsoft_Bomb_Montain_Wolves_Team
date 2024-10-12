@@ -10,6 +10,7 @@ extern void printSound(String);
 extern void printLeds(String);
 extern void printGPS(String);
 extern void printConfirmConfig();
+extern void beepingTimes(int, int);
 
 enum Config {
   Players,
@@ -39,6 +40,7 @@ boolean manuallyConfigured(){
         printDigit(_players);
         key = keypad.getKey();
         if (key) {
+          beepingTimes(1, 50);
           if (isNum(key)) {
             lcd.clear();
             _players += key;
@@ -62,6 +64,7 @@ boolean manuallyConfigured(){
           printDigit(_timeGame);
           key = keypad.getKey();
           if (key) {
+            beepingTimes(1, 50);
             if (isNum(key)) {
               lcd.clear();
               _timeGame += key;
@@ -85,6 +88,7 @@ boolean manuallyConfigured(){
         printDigit(_timeBomb);
         key = keypad.getKey();
         if (key) {
+          beepingTimes(1, 50);
           if (isNum(key)) {
             lcd.clear();
             _timeBomb += key;
@@ -108,6 +112,7 @@ boolean manuallyConfigured(){
         printDigit(_code);
         key = keypad.getKey();
         if (key) {
+          beepingTimes(1, 50);
           if (isNum(key)) {
             lcd.clear();
             _code += key;
@@ -130,6 +135,7 @@ boolean manuallyConfigured(){
           printGPS(bomb.checkGPS());
           key = keypad.getKey();
           if (key) {
+            beepingTimes(1, 50);
             if (key == 'B' && bomb.gps) {
               lcd.clear();
               bomb.gps = false;
@@ -153,6 +159,7 @@ boolean manuallyConfigured(){
           printLeds(bomb.checkLeds());
           key = keypad.getKey();
           if (key) {
+            beepingTimes(1, 50);
             if (key == 'B' && bomb.leds) {
               lcd.clear();
               bomb.leds = false;
@@ -172,6 +179,7 @@ boolean manuallyConfigured(){
           printSound(bomb.checkSound());
           key = keypad.getKey();
           if (key) {
+            beepingTimes(1, 50);
             if (key == 'B' && bomb.sound) {
               lcd.clear();
               bomb.sound = false;
@@ -191,6 +199,7 @@ boolean manuallyConfigured(){
           printSmoke(bomb.checkSmoke());
           key = keypad.getKey();
           if (key) {
+            beepingTimes(1, 50);
             if (key == 'B' && bomb.smoke) {
               lcd.clear();
               bomb.smoke = false;
@@ -210,6 +219,7 @@ boolean manuallyConfigured(){
           printConfirmConfig();
           key = keypad.getKey();
           if (key) {
+            beepingTimes(1, 50);
             if (key == 'C') {
               lcd.clear();
               config = Players;

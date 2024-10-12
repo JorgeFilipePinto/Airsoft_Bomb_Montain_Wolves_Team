@@ -16,7 +16,12 @@ extern void printCode(String);
 extern void bombExploded();
 extern void bombExplodedToArming();
 extern void restart();
+extern void beepingTimes(int, int);
+extern void beepBomb();
+extern void beepOn(boolean);
 void core_1();
+unsigned long lastBeep;
+int bombTime;
 
 String code = "";
 String secondCode = "";
@@ -52,6 +57,7 @@ void core_1(){
       printBluetoothChoice();
       char key = keypad.getKey();
       if (key == 'A'){
+        beepingTimes(1, 50);
         lcd.clear();
         String message = "";
         Serial.println("Bluetooth configuration!");
@@ -61,6 +67,7 @@ void core_1(){
         gameStatus = Prepared;
       }
       if (key == 'D'){
+        beepingTimes(1, 50);
         lcd.clear();
         manuallyConfigured();
         gameStatus = Prepared;
@@ -84,13 +91,16 @@ void core_1(){
 
       char key = keypad.getKey();
       if(key){
+        beepingTimes(1, 50);
         if(key == 'D' && bomb.tryArming > 0 && codeSize > 0){
           if(code == bomb.code){
             //Serial.println("Codigo inserido com sucesso!");
             //Serial.print("code size "); Serial.println(codeSize);
             gameStatus = TryCode;
             Serial.println("https://www.google.com/maps/place/40.769838,-8.026673");
+            lastBeep = millis();
             timeMin = bomb.time / 60000;
+            bombTime = bomb.time;
             timeSec = 0;
             lcd.clear();
           }else{
@@ -101,11 +111,9 @@ void core_1(){
             codeSize = 0;
             if (bomb.tryArming == 0){
               lcd.clear();
-              gameStatus = ExplodeTryArming;
-            }else{
-              delay(5000);
-              }
+              //gameStatus = ExplodeTryArming;
             }
+          }
         }else if (key == 'C' && codeSize > 0){
           lcd.clear();
           codeSize--;
@@ -122,9 +130,11 @@ void core_1(){
           printDigit(code);
         }
       }
+      delay(50);
       break;
     }
     case TryCode: {
+      beepBomb();
       printDigit(secondCode);
       Serial.println(bomb.time);
       bombArmed();
@@ -150,6 +160,7 @@ void core_1(){
 
       char key = keypad.getKey();
       if (key){
+        beepingTimes(1, 50);
         if (key == 'D' && secondCodeSize > 0){
           gameStatus = VerifyCode;
           lcd.clear();
@@ -208,6 +219,7 @@ void core_1(){
       break;
     }
     case Explode: {
+      beepOn(true);
       bombExploded();
       //Serial.println("Bomb Exploded");
       delay(2 * 60000);
@@ -216,6 +228,7 @@ void core_1(){
       break;
     }
     case ExplodeTryArming: {
+      beepOn(true);
       bombExplodedToArming();
       delay(2 * 60000);
       //delay(5 * 60000);
@@ -226,7 +239,9 @@ void core_1(){
       char key = keypad.getKey();
       restart();
       if (key) {
+        beepingTimes(1, 50);
         if (key == 'D') {
+          beepOn(false);
           ESP.restart();
         }
       }
