@@ -1,63 +1,43 @@
 extern boolean setupFinish;
-extern GameStatus gameStatus;
 extern unsigned long int bombTime_millisAnterior;
 extern void fillSolidColor(CRGB);
 void menuCore0();
 
+
+
 void menuCore0(){
 
-
   while(!setupFinish){
-    cor = random(1, 255);
-    respiracao(cor, 20);
-    fillSolidColor(CRGB::Black);
+    //cor = random(1, 255);
+    respiracao(22, 20);
+    //fillSolidColor(CRGB::Black);
   }
-  switch(gameStatus){
-    case Configuration: {
+  switch(bomb.bombStatus){
+    case initialize: {
       gradienteMovendo();
-      fillSolidColor(CRGB::Black);
       break;
     }
-    case Prepared: {
+    case configuration: {
       luzesDancantes();
-      fillSolidColor(CRGB::Black);
       break;
     }
-    case ReadyToArm: {
+    case readyToArm: {
 
       break;
     }
-    case TryCode: {
+    case armed: {
         cor = 22;
-        respiracao(cor, bomb.speedLight[4]);
-        fillSolidColor(CRGB::Black);
-
+        respiracao(cor, bomb.speedLight[3]);
       break;
     }
-    case VerifyCode: {
-      if(bomb.codeDiscovered){
-        fillSolidColor(CRGB::Green);
-      }else{
-        fillSolidColor(CRGB::Red);
-      }
-      break;
-    }
-    case Disarm: {
+    case disarm: {
       cor = 100;
-      respiracao(cor, bomb.speedLight[4]);
-      fillSolidColor(CRGB::Black);
+      respiracao(cor, bomb.speedLight[3]);
       break;
     }
-    case Explode: {
+    case explode: {
       cor = 22;
-      respiracao(cor, bomb.speedLight[4]);
-      fillSolidColor(CRGB::Black);
-      break;
-    }
-    case ExplodeTryArming: {
-      cor = 22;
-      respiracao(cor, bomb.speedLight[4]);
-      fillSolidColor(CRGB::Black);
+      respiracao(cor, bomb.speedLight[3]);
       break;
     }
     default: {

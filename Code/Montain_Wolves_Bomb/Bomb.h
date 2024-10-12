@@ -1,5 +1,15 @@
 #pragma once
 
+enum BombStatus {
+  initialize,
+  configuration,
+  readyToArm,
+  armed,
+  disarm,
+  explode
+};
+
+
 
 class Bomb{
   public:
@@ -10,6 +20,7 @@ class Bomb{
     int gameTime;
     const int speedLight[4] = {20, 50, 100, 255};
     const int speedSound[4] = {250, 500, 1000, 2000};
+    BombStatus bombStatus = initialize;
     double latZone;
     double longZone;
     double maxDistance;

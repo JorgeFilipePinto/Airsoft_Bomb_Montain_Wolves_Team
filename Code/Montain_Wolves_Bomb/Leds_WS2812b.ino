@@ -14,12 +14,10 @@ CRGBPalette16 returnPalette(int);
  * EFEITO 1
  */
 void respiracao(byte selcor, accum88 speed) {
-  for (int i = 0; i < 1000; i++) {
     breatheLevel = beatsin16(speed, 0, 255);
+    Serial.println("ola");
     fill_solid(fita, NUM_LEDS_FITA, CHSV(selcor, 255, breatheLevel));
     FastLED.show();
-    delay(10);
-  }
 }
 
 /*

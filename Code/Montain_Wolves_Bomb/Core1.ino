@@ -114,7 +114,7 @@ void core_1(){
               //gameStatus = ExplodeTryArming;
             }
           }
-        }else if (key == 'C' && codeSize > 0){
+        } else if (key == 'C' && codeSize > 0){
           lcd.clear();
           codeSize--;
           if (codeSize > 0) {
@@ -130,7 +130,6 @@ void core_1(){
           printDigit(code);
         }
       }
-      delay(50);
       break;
     }
     case TryCode: {
@@ -173,12 +172,12 @@ void core_1(){
           }else{
             secondCode = "";
           }
-          }else if (isNum(key)){
-            secondCode += key;
-            //Serial.print("Digit Insert "); Serial.println(key);
-            secondCodeSize++;
-            //Serial.print("Faltam "); Serial.println(secondCodeSize);
-            printDigit(secondCode);
+        }else if (isNum(key)){
+          secondCode += key;
+          //Serial.print("Digit Insert "); Serial.println(key);
+          secondCodeSize++;
+          //Serial.print("Faltam "); Serial.println(secondCodeSize);
+          printDigit(secondCode);
         }
       }
       break;
