@@ -52,6 +52,7 @@ void setup_ori()
       for(int i = 0; i < 10; i++){
         key = keypad.getKey();
         if(key == 'D'){
+          beepingTimes(1, 50);
           setupFinish = true;
           break;
         }

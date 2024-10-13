@@ -15,7 +15,6 @@ CRGBPalette16 returnPalette(int);
  */
 void respiracao(byte selcor, accum88 speed) {
     breatheLevel = beatsin16(speed, 0, 255);
-    Serial.println("ola");
     fill_solid(fita, NUM_LEDS_FITA, CHSV(selcor, 255, breatheLevel));
     FastLED.show();
 }
@@ -26,13 +25,11 @@ void respiracao(byte selcor, accum88 speed) {
 void gradienteOndas() {
   CRGBPalette16 selPalette = returnPalette(random(1, NUM_PALETTES + 1));
   int indexPal = 2;
-  for (int i = 0; i < 1000; i++) {
-    beatA = beatsin16(30, 0, 255);
-    beatB = beatsin16(20, 0, 255);
-    fill_palette(fita, NUM_LEDS_FITA, (beatA + beatB) / 2, indexPal, selPalette, 255, LINEARBLEND);
-    FastLED.show();
-    delay(10);
-  }
+  beatA = beatsin16(30, 0, 255);
+  beatB = beatsin16(20, 0, 255);
+  fill_palette(fita, NUM_LEDS_FITA, (beatA + beatB) / 2, indexPal, selPalette, 255, LINEARBLEND);
+  FastLED.show();
+
 }
 
 
@@ -41,12 +38,9 @@ void gradienteOndas() {
  */
 void gradienteMovendo() {
   CRGBPalette16 selPalette = returnPalette(random(1, NUM_PALETTES + 1));
-  for (int i = 0; i < 1000; i++) {
-    fill_palette(fita, NUM_LEDS_FITA, palleteIndex, 255 / NUM_LEDS_FITA, selPalette, 255, LINEARBLEND);
-    FastLED.show();
-    palleteIndex++;
-    delay(10);
-  }
+  fill_palette(fita, NUM_LEDS_FITA, palleteIndex, 255 / NUM_LEDS_FITA, selPalette, 255, LINEARBLEND);
+  FastLED.show();
+  palleteIndex++;
 }
 
 
@@ -72,22 +66,20 @@ void luzesDancantes() {
   CRGB cor5 = returnColor(c2 + 1);
   CRGB cor6 = returnColor(c2 + 2);
 
-  for (int i = 0; i < 2000; i++) {
-    sinBeat   = beatsin8(30, 0, NUM_LEDS_FITA / 2, 0, 0);
-    sinBeat2  = beatsin8(30, 0, NUM_LEDS_FITA / 2, 0, NUM_LEDS_FITA);
-    sinBeat3  = beatsin8(30, 0, NUM_LEDS_FITA / 2, 0, NUM_LEDS_FITA / 2);
+  sinBeat   = beatsin8(30, 0, NUM_LEDS_FITA / 2, 0, 0);
+  sinBeat2  = beatsin8(30, 0, NUM_LEDS_FITA / 2, 0, NUM_LEDS_FITA);
+  sinBeat3  = beatsin8(30, 0, NUM_LEDS_FITA / 2, 0, NUM_LEDS_FITA / 2);
 
-    fita[sinBeat]   = cor1;
-    fita[sinBeat2]  = cor2;
-    fita[sinBeat3]  = cor3;
+  fita[sinBeat]   = cor1;
+  fita[sinBeat2]  = cor2;
+  fita[sinBeat3]  = cor3;
 
-    fita[sinBeat + NUM_LEDS_FITA / 2]   = cor4;
-    fita[sinBeat2 + NUM_LEDS_FITA / 2]  = cor5;
-    fita[sinBeat3 + NUM_LEDS_FITA / 2]  = cor6;
+  fita[sinBeat + NUM_LEDS_FITA / 2]   = cor4;
+  fita[sinBeat2 + NUM_LEDS_FITA / 2]  = cor5;
+  fita[sinBeat3 + NUM_LEDS_FITA / 2]  = cor6;
 
-    fadeToBlackBy(fita, NUM_LEDS_FITA, 10);
-    FastLED.show();
-  }
+  fadeToBlackBy(fita, NUM_LEDS_FITA, 10);
+  FastLED.show();
 }
 
 /*
@@ -130,7 +122,7 @@ void explosao() {
 
   for (int x = 0; x < numExplosoes ; x++) {
     byte hue = random(1, 255);        // escolhe cor aleatoria
-    Serial.print("Cor: "); Serial.println(hue);
+    //Serial.print("Cor: "); Serial.println(hue);
 
     for (int i = 0; i < expSize; i++) {
       fita[NUM_LEDS_FITA / 2 + i].setHue(hue);

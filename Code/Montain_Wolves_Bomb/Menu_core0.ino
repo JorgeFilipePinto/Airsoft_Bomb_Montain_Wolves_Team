@@ -20,22 +20,22 @@ void menuCore0(){
       break;
     }
     case readyToArm: {
-
+      fillSolidColor(CRGB::Black);
       break;
     }
     case armed: {
         cor = 22;
-        respiracao(cor, bomb.speedLight[3]);
+        respiracao(cor, bomb.speedLight);
       break;
     }
     case disarm: {
       cor = 100;
-      respiracao(cor, bomb.speedLight[3]);
+      respiracao(cor, bomb.speedLight);
       break;
     }
     case explode: {
       cor = 22;
-      respiracao(cor, bomb.speedLight[3]);
+      respiracao(cor, bomb.speedLight);
       break;
     }
     default: {

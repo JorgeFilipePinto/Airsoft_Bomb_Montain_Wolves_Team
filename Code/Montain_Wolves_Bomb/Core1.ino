@@ -89,7 +89,7 @@ void core_1(){
     }
     case ReadyToArm: {
       insertCode();
-
+      bomb.bombStatus = readyToArm;
       char key = keypad.getKey();
       if(key){
         beepingTimes(1, 50);
@@ -104,6 +104,7 @@ void core_1(){
             bombTime = bomb.time;
             timeSec = 0;
             lcd.clear();
+            bomb.bombStatus = armed;
           }else{
             lcd.clear();
             tryAgain();
@@ -136,7 +137,7 @@ void core_1(){
     case TryCode: {
       beepBomb();
       printDigit(secondCode);
-      Serial.println(bomb.time);
+      //Serial.println(bomb.time);
       bombArmed();
       if (bomb.time > 0) {
         if (timeSec == 0) {
@@ -212,8 +213,8 @@ void core_1(){
     }
     case Disarm: {
       youWin();
-      Serial.println("YOU WIN!");
-      delay(2 * 60000);
+      //Serial.println("YOU WIN!");
+      delay(60000);
       //delay(5 * 60000);
       gameStatus = Restart;
       break;
@@ -222,7 +223,7 @@ void core_1(){
       beepOn(true);
       bombExploded();
       //Serial.println("Bomb Exploded");
-      delay(2 * 60000);
+      delay(60000);
       //delay(5 * 60000);
       gameStatus = Restart;
       break;
@@ -230,7 +231,7 @@ void core_1(){
     case ExplodeTryArming: {
       beepOn(true);
       bombExplodedToArming();
-      delay(2 * 60000);
+      delay(60000);
       //delay(5 * 60000);
       gameStatus = Restart;
       break;

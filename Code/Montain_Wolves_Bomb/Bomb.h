@@ -18,7 +18,7 @@ class Bomb{
     int tryArming;
     int players;
     int gameTime;
-    const int speedLight[4] = {20, 50, 100, 255};
+    int speedLight = 20;
     const int speedSound[4] = {250, 500, 1000, 2000};
     BombStatus bombStatus = initialize;
     double latZone;
