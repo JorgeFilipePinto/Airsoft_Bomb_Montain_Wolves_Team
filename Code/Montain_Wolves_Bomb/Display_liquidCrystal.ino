@@ -229,7 +229,7 @@ void youWin(){
 void restart() {
   lcd.setCursor(5,0);
   lcd.print("Restart");
-  lcd.setCursor(9,1);
+  lcd.setCursor(4,1);
   lcd.print("Press D");
 }
 

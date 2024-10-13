@@ -212,6 +212,7 @@ void core_1(){
       break;
     }
     case Disarm: {
+      bomb.bombStatus = disarm;
       youWin();
       //Serial.println("YOU WIN!");
       delay(60000);
@@ -220,6 +221,7 @@ void core_1(){
       break;
     }
     case Explode: {
+      bomb.bombStatus = explode;
       beepOn(true);
       bombExploded();
       //Serial.println("Bomb Exploded");
@@ -234,6 +236,7 @@ void core_1(){
       delay(60000);
       //delay(5 * 60000);
       gameStatus = Restart;
+      lcd.clear();
       break;
     }
     case Restart: {

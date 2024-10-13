@@ -8,7 +8,8 @@ void menuCore0();
 void menuCore0(){
 
   while(!setupFinish){
-    respiracao(22, 20);
+    cor = 22;
+    respiracao(cor, 20);
   }
   switch(bomb.bombStatus){
     case initialize: {
