@@ -24,11 +24,11 @@ void beepBomb() {
     bomb.speedLight = 50;
     //bombState = 1000;
     bombState = bomb.speedSound[2];
-  } else if (bomb.time > bombTime / 4 && bomb.time < bombTime / 2) {
+  } else if (bomb.time < bombTime / 4 && bomb.time > 20000) {
     bomb.speedLight = 100;
     //bombState = 500;
-    bombState = bomb.speedSound[1];
-  } else if (bomb.time < bombTime / 4) {
+    bombState = bomb.speedSound[1]; 
+  } else if (bomb.time < 20000) {
     bomb.speedLight = 255;
     //bombState = 250;
     bombState = bomb.speedSound[0];
