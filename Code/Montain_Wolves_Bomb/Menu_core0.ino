@@ -8,9 +8,7 @@ void menuCore0();
 void menuCore0(){
 
   while(!setupFinish){
-    //cor = random(1, 255);
     respiracao(22, 20);
-    //fillSolidColor(CRGB::Black);
   }
   switch(bomb.bombStatus){
     case initialize: {

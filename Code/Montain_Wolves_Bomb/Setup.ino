@@ -3,6 +3,7 @@ extern void beepingTimes(int, int);
 
 void setup_ori()
 {
+  bomb.bombStatus = initialize;
   pinMode(beep, OUTPUT);
   beepingTimes(3, 250);
   Serial.begin(115200);

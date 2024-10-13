@@ -54,6 +54,7 @@ void core_1(){
 
   switch(gameStatus){
     case Configuration: {
+      bomb.bombStatus = configuration;
       printBluetoothChoice();
       char key = keypad.getKey();
       if (key == 'A'){
