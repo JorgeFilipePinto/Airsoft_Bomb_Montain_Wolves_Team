@@ -76,7 +76,8 @@ boolean manuallyConfigured(){
               printDigit(_timeGame);
             }
             if (key == 'D' && _timeGame.length() > 0) {
-              bomb.gameTime = _timeGame.toInt() * 60000;
+              bomb.gameTime = _timeGame.toInt();
+              bomb.gameTime *= 60000;
               config = TimeBomb;
               lcd.clear();
             }

@@ -32,6 +32,7 @@ int secondsAnterior = 59;
 
 unsigned long int bombTime_millisAnterior = 0;
 unsigned long int clock_millisAnterior = 0;
+unsigned long int gameTimeLast = 0;
 int count = 0;
 int timeMin;
 int timeSec;
@@ -66,6 +67,7 @@ void core_1(){
         bluetoothConfig(BT);
         lcd.clear();
         gameStatus = Prepared;
+        gameTimeLast = millis();
       }
       if (key == 'D'){
         beepingTimes(1, 50);
@@ -88,6 +90,12 @@ void core_1(){
       break;
     }
     case ReadyToArm: {
+      if (millis() - gameTimeLast >= bomb.gameTime) {
+        bomb.bombStatus = explode;
+        gameStatus = Explode;
+        lcd.clear();
+        break;
+      }
       insertCode();
       bomb.bombStatus = readyToArm;
       char key = keypad.getKey();
@@ -135,6 +143,12 @@ void core_1(){
       break;
     }
     case TryCode: {
+      if (millis() - gameTimeLast >= bomb.gameTime) {
+        bomb.bombStatus = explode;
+        gameStatus = Explode;
+        lcd.clear();
+        break;
+      }
       beepBomb();
       printDigit(secondCode);
       //Serial.println(bomb.time);
