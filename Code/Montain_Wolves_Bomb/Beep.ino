@@ -35,7 +35,7 @@ void beepBomb() {
     //bombState = 250;
     bombState = bomb.speedSound[0];
   }
-  if (millis() - lastBeep >= bombState) {
+  if (millis() - lastBeep >= bombState && bomb.sound) {
     if (digitalRead(beep) == HIGH) {
       lastBeep = millis();
       digitalWrite(beep, LOW);
