@@ -10,7 +10,7 @@ Bomb::Bomb(int time, String code, int tries, int tryArming, int gameTime){
   this->gameTime = gameTime * 60000;
   this->gps = false;
   this->sound = false;
-  this->leds = false;
+  this->leds = true;
   this->smoke = false;
   this->latZone = 40.769726;
   this->longZone = -8.027784;

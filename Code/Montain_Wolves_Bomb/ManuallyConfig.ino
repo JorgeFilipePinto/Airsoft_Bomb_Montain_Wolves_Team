@@ -108,6 +108,7 @@ boolean manuallyConfigured(){
         }
         break;
         }
+
         case BombCode: {
         printBombCode();
         printDigit(_code);
@@ -126,13 +127,14 @@ boolean manuallyConfigured(){
             }
           if (key == 'D' && _code.length() > 0 && _code.length() == _players.toInt()) {
             bomb.code = _code;
-            config = GPS;
+            config = Leds;
             lcd.clear();
             }
           }
           break;
         }
-        case GPS: {
+
+        /*case GPS: {
           printGPS(bomb.checkGPS());
           key = keypad.getKey();
           if (key) {
@@ -155,7 +157,8 @@ boolean manuallyConfigured(){
         case Coordenates: {
          
           break;
-        }
+        }*/
+
         case Leds: {
           printLeds(bomb.checkLeds());
           key = keypad.getKey();
@@ -167,7 +170,7 @@ boolean manuallyConfigured(){
             }
             if (key == 'A' && !bomb.leds) {
               lcd.clear();
-              bomb.leds = true; 
+              bomb.leds = true;
             }
             if (key == 'D') {
               config = Sound;
@@ -176,6 +179,7 @@ boolean manuallyConfigured(){
           }
           break;
         }
+
         case Sound: {
           printSound(bomb.checkSound());
           key = keypad.getKey();
@@ -187,7 +191,7 @@ boolean manuallyConfigured(){
             }
             if (key == 'A' && !bomb.sound) {
               lcd.clear();
-              bomb.sound = true; 
+              bomb.sound = true;
             }
             if (key == 'D') {
               config = Smoke;
@@ -196,6 +200,7 @@ boolean manuallyConfigured(){
           }
           break;
         }
+
         case Smoke: {
           printSmoke(bomb.checkSmoke());
           key = keypad.getKey();
@@ -216,6 +221,7 @@ boolean manuallyConfigured(){
           }
           break;
         }
+        
         case Confirm: {
           printConfirmConfig();
           key = keypad.getKey();

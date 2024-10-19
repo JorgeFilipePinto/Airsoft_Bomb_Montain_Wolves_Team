@@ -7,11 +7,13 @@ extern int bombTime;
 
 
 void beepingTimes(int times, int time){
-  for (int i = 0; i < times; i++) {
-    digitalWrite(beep, HIGH);
-    delay(time);
-    digitalWrite(beep, LOW);
-    delay(time);
+  if (bomb.sound) {
+    for (int i = 0; i < times; i++) {
+      digitalWrite(beep, HIGH);
+      delay(time);
+      digitalWrite(beep, LOW);
+      delay(time);
+    }
   }
 }
 
@@ -41,10 +43,9 @@ void beepBomb() {
       digitalWrite(beep, HIGH);
       lastBeep = millis();
     }
-  } else if (millis() - lastBeep < bombState && millis() - lastBeep >= 50) {
+  } else if (millis() - lastBeep < bombState && millis() - lastBeep >= 50 && bomb.sound) {
       int stateBeeper = digitalRead(beep);
       if (stateBeeper == HIGH) {
-        Serial.print("Estou ON: "); Serial.println(stateBeeper);
         digitalWrite(beep, LOW);
       }
   }

@@ -25,7 +25,7 @@
 #define PINO_FITA 15
 #define RXD2 16
 #define TXD2 17
-#define beep -1
+#define beep 2
 HardwareSerial neogps(1);
 CRGB fita[NUM_LEDS_FITA];
 

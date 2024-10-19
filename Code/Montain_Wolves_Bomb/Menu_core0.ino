@@ -17,7 +17,7 @@ void menuCore0(){
       break;
     }
     case configuration: {
-      luzesDancantes();
+      bomb.leds ? luzesDancantes() : fillSolidColor(CRGB::Black);
       break;
     }
     case readyToArm: {
@@ -26,17 +26,17 @@ void menuCore0(){
     }
     case armed: {
         cor = 22;
-        respiracao(cor, bomb.speedLight);
+        bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
       break;
     }
     case disarm: {
       cor = 100;
-      respiracao(cor, bomb.speedLight);
+      bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
       break;
     }
     case explode: {
       cor = 22;
-      respiracao(cor, bomb.speedLight);
+      bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
       break;
     }
     default: {
