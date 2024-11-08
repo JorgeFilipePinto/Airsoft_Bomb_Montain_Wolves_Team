@@ -18,7 +18,7 @@ enum Config {
   TimeBomb,
   BombCode,
   GPS,
-  Coordenates,
+  SetNewCoordinate,
   Leds,
   Sound,
   Smoke,
@@ -42,7 +42,7 @@ boolean manuallyConfigured(){
         if (key) {
           beepingTimes(1, 50);
           if (isNum(key)) {
-            lcd.clear();
+            //lcd.clear();
             _players += key;
             printDigit(_players);
             }
@@ -66,7 +66,7 @@ boolean manuallyConfigured(){
           if (key) {
             beepingTimes(1, 50);
             if (isNum(key)) {
-              lcd.clear();
+              //lcd.clear();
               _timeGame += key;
               printDigit(_timeGame);
             }
@@ -91,7 +91,7 @@ boolean manuallyConfigured(){
         if (key) {
           beepingTimes(1, 50);
           if (isNum(key)) {
-            lcd.clear();
+            //lcd.clear();
             _timeBomb += key;
             printDigit(_timeBomb);
           }
@@ -116,7 +116,7 @@ boolean manuallyConfigured(){
         if (key) {
           beepingTimes(1, 50);
           if (isNum(key)) {
-            lcd.clear();
+            //lcd.clear();
             _code += key;
             printDigit(_code);
             }
@@ -127,14 +127,14 @@ boolean manuallyConfigured(){
             }
           if (key == 'D' && _code.length() > 0 && _code.length() == _players.toInt()) {
             bomb.code = _code;
-            config = Leds;
+            config = GPS;
             lcd.clear();
             }
           }
           break;
         }
 
-        /*case GPS: {
+        case GPS: {
           printGPS(bomb.checkGPS());
           key = keypad.getKey();
           if (key) {
@@ -148,16 +148,32 @@ boolean manuallyConfigured(){
               bomb.gps = true; 
             }
             if (key == 'D') {
+              bomb.gps ? config = SetNewCoordinate : config = Leds;
+              lcd.clear();
+            }
+          }
+          break;
+        }
+
+        case SetNewCoordinate: {
+          gps.satellites.value() < 6 ? WaitSat() : printCoordinate();
+          key = keypad.getKey();
+          if (key) {
+            beepingTimes(1, 50);
+            if (key == 'A') {
+              lcd.clear();
+              setNewCoordinates();
+              bomb.latZone = gps.location.lat();
+              bomb.longZone = gps.location.lng();
+              delay(2000);
+              }
+            if (key == 'D') {
               config = Leds;
               lcd.clear();
             }
           }
           break;
         }
-        case Coordenates: {
-         
-          break;
-        }*/
 
         case Leds: {
           printLeds(bomb.checkLeds());

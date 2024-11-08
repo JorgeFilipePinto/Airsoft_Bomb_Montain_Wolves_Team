@@ -77,19 +77,27 @@ void core_1(){
       }
       break;
     }
+
     case Prepared: {
-      /*double coordinates = TinyGPSPlus::distanceBetween(gps.location.lat(), gps.location.lng(), bomb.latZone, bomb.longZone);
+      //double coordinates = TinyGPSPlus::distanceBetween(gps.location.lat(), gps.location.lng(), bomb.latZone, bomb.longZone);
       if(bomb.isValidZone()){
-        availableZone();*/
-        gameStatus = ReadyToArm;  
-      /*}else{
+        availableZone();
+        char key = keypad.getKey();
+        if(key == 'D') {
+          gameStatus = ReadyToArm;
+        }
+      }else{
         lcd.setCursor(0,0);
-        Serial.println(coordinates);
+        //Serial.println(coordinates);
         invalidZone();
-      }*/
+      }
       break;
     }
+
     case ReadyToArm: {
+      if(!bomb.isValidZone()) {
+        gameStatus = Prepared;
+      }
       if (millis() - gameTimeLast >= bomb.gameTime) {
         bomb.bombStatus = explode;
         gameStatus = Explode;
@@ -142,6 +150,7 @@ void core_1(){
       }
       break;
     }
+
     case TryCode: {
       if (millis() - gameTimeLast >= bomb.gameTime) {
         bomb.bombStatus = explode;
@@ -198,6 +207,7 @@ void core_1(){
       }
       break;
     }
+
     case VerifyCode: {
       if(bomb.checkCode(secondCode)){
         lcd.clear();
@@ -225,6 +235,7 @@ void core_1(){
       }
       break;
     }
+
     case Disarm: {
       bomb.bombStatus = disarm;
       youWin();
@@ -244,6 +255,7 @@ void core_1(){
       gameStatus = Restart;
       break;
     }
+
     case ExplodeTryArming: {
       beepOn(true);
       bombExplodedToArming();
@@ -253,6 +265,7 @@ void core_1(){
       lcd.clear();
       break;
     }
+
     case Restart: {
       char key = keypad.getKey();
       restart();
@@ -265,6 +278,7 @@ void core_1(){
       }
       break;
     }
+    
     default: {
       Serial.println("Something wrong!!");
       break;

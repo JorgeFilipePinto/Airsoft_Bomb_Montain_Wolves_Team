@@ -41,7 +41,7 @@ uint8_t sinBeat2 = 0;
 uint8_t sinBeat3 = 0;
 
 
-
+unsigned long start = millis();
 boolean setupFinish = false;
 String device_name = "Montain_Wolves_Airsoft_Bomb";
 boolean Configured = false;

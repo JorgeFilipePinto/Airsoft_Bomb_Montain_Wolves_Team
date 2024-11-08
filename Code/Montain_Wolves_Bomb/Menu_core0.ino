@@ -11,13 +11,17 @@ void menuCore0(){
     cor = 22;
     respiracao(cor, 20);
   }
+
+
+  
   switch(bomb.bombStatus){
     case initialize: {
       gradienteMovendo();
       break;
     }
     case configuration: {
-      bomb.leds ? luzesDancantes() : fillSolidColor(CRGB::Black);
+      cor = 100;
+      bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
       break;
     }
     case readyToArm: {

@@ -1,5 +1,5 @@
 #include"Bomb.h"
-extern double getDIstance(double, double);
+//extern double getDIstance(double, double);
 
 Bomb::Bomb(int time, String code, int tries, int tryArming, int gameTime){
   this->time = time;
@@ -14,7 +14,7 @@ Bomb::Bomb(int time, String code, int tries, int tryArming, int gameTime){
   this->smoke = false;
   this->latZone = 40.769726;
   this->longZone = -8.027784;
-  this->maxDistance = 10.0;
+  this->maxDistance = 5.0;
   this->codeDiscovered = false;
 };
 

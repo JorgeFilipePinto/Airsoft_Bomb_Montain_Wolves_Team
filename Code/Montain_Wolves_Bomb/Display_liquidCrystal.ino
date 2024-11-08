@@ -11,13 +11,14 @@ void printSmoke(String);
 void printSound(String);
 void printLeds(String);
 void printGPS(String);
+void WaitSat();
+void printCoordinate();
 void printConfirmConfig();
 void bombIsReady();
 void availableZone();
 void invalidZone();
 void insertCode();
-void teamScroll();
-void printTeam();
+void teamIntro();
 void printDigit(String);
 void printCode(String);
 void correctCode();
@@ -87,6 +88,27 @@ void printGPS(String status){
   lcd.print("A - Yes   B - No");
 }
 
+void WaitSat() {
+  lcd.setCursor(0,0);
+  lcd.print("*****Wait*******");
+  lcd.setCursor(0, 1);
+  lcd.print("For more Sats!!*");
+}
+
+void printCoordinate() {
+  lcd.setCursor(0, 0);
+  lcd.print("Lat: "); lcd.print(gps.location.lat(), 6);
+  lcd.setCursor(0, 1);
+  lcd.print("Long: "); lcd.print(gps.location.lng(), 6);
+}
+
+void setNewCoordinates() {
+  lcd.setCursor(2, 0);
+  lcd.print("coordenates");
+  lcd.setCursor(3, 1);
+  lcd.print("Configured");
+}
+
 void printLeds(String status){
   lcd.setCursor(0,0);
   lcd.print("Leds?");
@@ -146,19 +168,13 @@ void invalidZone(){
   lcd.print("Invalid");
 }
 
-void teamScroll(){
-  lcd.setCursor(9,0);
-  lcd.print("Montain Wolves");
-  lcd.setCursor(5,1);
-  lcd.print(F("Press D to continue!!"));
-}
-
-void printTeam(){
+void teamIntro(){
   lcd.setCursor(1,0);
   lcd.print("Montain Wolves");
-  lcd.setCursor(2,1);
-  lcd.print("Airsoft Bomb");
+  lcd.setCursor(4,1);
+  lcd.print(F("Press D!!"));
 }
+
 
 void insertCode(){
   lcd.setCursor(0,0);
