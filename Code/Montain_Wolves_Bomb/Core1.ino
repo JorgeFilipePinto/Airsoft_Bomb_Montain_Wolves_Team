@@ -1,3 +1,4 @@
+extern void teamIntro();
 extern void printBluetoothChoice();
 extern void printBluetoothConfig();
 extern void bluetoothConfig(BluetoothSerial);
@@ -38,6 +39,7 @@ int timeMin;
 int timeSec;
 
 enum GameStatus {
+  Intro,
   Configuration,
   Prepared,
   ReadyToArm,
@@ -49,11 +51,21 @@ enum GameStatus {
   Restart
 };
 
-GameStatus gameStatus = Configuration;
+GameStatus gameStatus = Intro;
 
 void core_1(){
-
   switch(gameStatus){
+    case Intro: {
+      char key = keypad.getKey();
+      key ? beepingTimes(1, 50): void();
+      teamIntro();
+      if (key == 'D') {
+        lcd.clear();
+        gameStatus = Configuration;
+      }
+      break;
+    }
+
     case Configuration: {
       bomb.bombStatus = configuration;
       printBluetoothChoice();
@@ -62,7 +74,6 @@ void core_1(){
         beepingTimes(1, 50);
         lcd.clear();
         String message = "";
-        Serial.println("Bluetooth configuration!");
         printBluetoothConfig();
         bluetoothConfig(BT);
         lcd.clear();
@@ -79,23 +90,26 @@ void core_1(){
     }
 
     case Prepared: {
-      //double coordinates = TinyGPSPlus::distanceBetween(gps.location.lat(), gps.location.lng(), bomb.latZone, bomb.longZone);
-      if(bomb.isValidZone()){
-        availableZone();
-        char key = keypad.getKey();
-        if(key == 'D') {
-          gameStatus = ReadyToArm;
+      if(bomb.gps) {
+        if(bomb.isValidZone()){
+          availableZone();
+          char key = keypad.getKey();
+          if(key == 'D') {
+            gameStatus = ReadyToArm;
+          }
+        }else{
+          lcd.setCursor(0,0);
+          invalidZone();
         }
-      }else{
-        lcd.setCursor(0,0);
-        //Serial.println(coordinates);
-        invalidZone();
+      } else {
+        gameStatus = ReadyToArm;
       }
       break;
     }
 
     case ReadyToArm: {
-      if(!bomb.isValidZone()) {
+      bomb.bombStatus = readyToArm;
+      if(!bomb.isValidZone() && bomb.gps) {
         gameStatus = Prepared;
       }
       if (millis() - gameTimeLast >= bomb.gameTime) {
@@ -105,16 +119,13 @@ void core_1(){
         break;
       }
       insertCode();
-      bomb.bombStatus = readyToArm;
       char key = keypad.getKey();
       if(key){
         beepingTimes(1, 50);
         if(key == 'D' && bomb.tryArming > 0 && codeSize > 0){
           if(code == bomb.code){
-            //Serial.println("Codigo inserido com sucesso!");
-            //Serial.print("code size "); Serial.println(codeSize);
             gameStatus = TryCode;
-            Serial.println("https://www.google.com/maps/place/40.769838,-8.026673");
+            //Serial.println("https://www.google.com/maps/place/40.769838,-8.026673");
             lastBeep = millis();
             timeMin = bomb.time / 60000;
             bombTime = bomb.time;
@@ -123,13 +134,17 @@ void core_1(){
             bomb.bombStatus = armed;
           }else{
             lcd.clear();
+            wrongCode();
             tryAgain();
+            delay(500);
             bomb.tryArming--;
             code = "";
             codeSize = 0;
+            delay(500);
+            lcd.clear();
             if (bomb.tryArming == 0){
               lcd.clear();
-              //gameStatus = ExplodeTryArming;
+              gameStatus = ExplodeTryArming;
             }
           }
         } else if (key == 'C' && codeSize > 0){
@@ -144,7 +159,6 @@ void core_1(){
         }else  if (isNum(key)) {
           code += key;
           codeSize++;
-          //Serial.print("Digit Insert "); Serial.println(key);
           printDigit(code);
         }
       }
@@ -152,6 +166,7 @@ void core_1(){
     }
 
     case TryCode: {
+      bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
       if (millis() - gameTimeLast >= bomb.gameTime) {
         bomb.bombStatus = explode;
         gameStatus = Explode;
@@ -160,7 +175,6 @@ void core_1(){
       }
       beepBomb();
       printDigit(secondCode);
-      //Serial.println(bomb.time);
       bombArmed();
       if (bomb.time > 0) {
         if (timeSec == 0) {
@@ -213,7 +227,6 @@ void core_1(){
         lcd.clear();
         correctCode();
         bomb.codeDiscovered = true;
-        //Serial.println("correct code!");
         gameStatus = Disarm;
         lcd.clear();
       } else if (bomb.tries == 0){
@@ -226,8 +239,7 @@ void core_1(){
         wrongCode();
         tryAgain();
         bomb.tries--;
-        delay(5 * 1000);
-        //Serial.println("Try Again!!");
+        (bomb.tries > 0) ? delay(5 * 1000) : delay(0);
         secondCodeSize = 0;
         secondCode = "";
         lcd.clear();
@@ -237,32 +249,40 @@ void core_1(){
     }
 
     case Disarm: {
+      bomb.leds ? respiracao(100, bomb.speedLight) : fillSolidColor(CRGB::Black);
       bomb.bombStatus = disarm;
       youWin();
-      //Serial.println("YOU WIN!");
-      delay(60000);
-      //delay(5 * 60000);
-      gameStatus = Restart;
+      beepOn(true);
+      char key = keypad.getKey();
+      if (key == 'D') {
+        gameStatus = Restart;
+        lcd.clear();
+      }
       break;
     }
+
     case Explode: {
+      bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
       bomb.bombStatus = explode;
       beepOn(true);
       bombExploded();
-      //Serial.println("Bomb Exploded");
-      delay(60000);
-      //delay(5 * 60000);
-      gameStatus = Restart;
+      char key = keypad.getKey();
+      if (key == 'D') {
+        gameStatus = Restart;
+        lcd.clear();
+      }
       break;
     }
 
     case ExplodeTryArming: {
+      bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
       beepOn(true);
       bombExplodedToArming();
-      delay(60000);
-      //delay(5 * 60000);
-      gameStatus = Restart;
-      lcd.clear();
+      char key = keypad.getKey();
+      if (key == 'D') {
+        lcd.clear();
+        gameStatus = Restart;
+      }
       break;
     }
 
@@ -278,7 +298,7 @@ void core_1(){
       }
       break;
     }
-    
+
     default: {
       Serial.println("Something wrong!!");
       break;

@@ -211,7 +211,7 @@ void correctCode(){
 }
 
 void wrongCode(){
-  lcd.setCursor(1,0);
+  lcd.setCursor(2,0);
   lcd.print("Wrong Code!");
 }
 

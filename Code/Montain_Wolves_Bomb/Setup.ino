@@ -1,4 +1,3 @@
-extern void printNoData();
 extern void beepingTimes(int, int);
 
 void setup_ori() {
@@ -28,27 +27,33 @@ void setup_ori() {
   FastLED.setBrightness(200);
 
   delay(2000);
-  printNoData();
 
   display.display();
   Serial.printf("The device with name \"%s\" is started \nNow you can pai it with Bluetooth\n", device_name.c_str());
   Serial.print("MAC Address: "); Serial.println(BT.getBtAddressString());
+  
+  xMutex = xSemaphoreCreateMutex();
 
-  xTaskCreatePinnedToCore(
-    gpsTracker,
-    "Task2",
+  xTaskCreatePinnedToCore (
+    &GPSData,
+    "GPSData",
     10000,
     NULL,
     1,
-    &Task2,
-    0);
+    NULL,
+    0
+  );
 
-  teamIntro();
+  xTaskCreatePinnedToCore(
+    &gpsTracker,
+    "Task2",
+    10000,
+    NULL,
+    3,
+    NULL,
+    0
+    );
+
   
-  char key;
-  while(key != 'D'){
-    beepingTimes(1, 50);
-    key = keypad.getKey();
-  }
-    lcd.clear();
+
 }

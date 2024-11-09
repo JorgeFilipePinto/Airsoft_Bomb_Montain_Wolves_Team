@@ -29,6 +29,14 @@
 HardwareSerial neogps(1);
 CRGB fita[NUM_LEDS_FITA];
 
+
+SemaphoreHandle_t xMutex;
+
+
+
+
+
+
 // Variáveis de programa
 uint8_t hue = 10;
 uint8_t palleteIndex = 0;
@@ -58,7 +66,7 @@ char keys[ROWS][COLS] = {
   {'*','0','#','D'}
 };
 
-TaskHandle_t Task2;
+//TaskHandle_t Task2;
 
 extern void setup_ori();
 extern void core_1();

@@ -1,5 +1,3 @@
-
-
 void respiracao(byte);
 void gradienteOndas();
 void gradienteMovendo();

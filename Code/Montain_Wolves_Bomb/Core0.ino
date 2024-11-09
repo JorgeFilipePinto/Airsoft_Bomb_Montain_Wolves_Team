@@ -1,34 +1,60 @@
-extern void menuCore0();
+//extern void menuCore0();
+extern void respiracao(byte, accum88);
+extern void gradienteOndas();
+extern void fillSolidColor(CRGB);
+extern void gradienteMovendo();
 extern void getData();
-extern void printData();
-extern void printNoData();
+extern void SerialGPSData();
 extern boolean getNewData();
+extern void clearAll();
 extern void NoData();
 extern void printDisplayData();
 
 void gpsTracker(void * pvParameters) {
-  for(;;) {
-
-    //menuCore0();
-
-    //If newData is true
-    if(getNewData()) {
-      Serial.println(gps.satellites.value());
-      Serial.print("LAT=");  Serial.println(gps.location.lat(), 6);
-      Serial.print("LONG="); Serial.println(gps.location.lng(), 6);
-      Serial.print("ALT=");  Serial.println(gps.altitude.meters());
-      Serial.print("Time= "); Serial.print(gps.time.hour()+1); Serial.print(":"); Serial.print(gps.time.minute()); Serial.print(":"); Serial.println(gps.time.second());
-      Serial.print("Date= "); Serial.println(gps.date.value());
-      Serial.print("Hdop value: "); Serial.println(gps.hdop.value());
-      display.clearDisplay();
-      display.setTextColor(SSD1306_WHITE);
-
-    if (gps.location.isValid() == 1) {
-      printDisplayData();
+  while (1) {
+    if (xMutex != NULL) {
+      /*switch(bomb.bombStatus){
+        case initialize: {
+          //bomb.leds ? respiracao(100, bomb.speedLight) : fillSolidColor(CRGB::Black);
+          break;
+        }
+        case configuration: {
+          cor = 100;
+          //bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
+          //bomb.gps ? NoData() : clearAll();
+          break;
+        }
+        case readyToArm: {
+          fillSolidColor(CRGB::Black);
+          break;
+        }
+        case armed: {
+            cor = 22;
+            //bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
+          break;
+        }
+        case disarm: {
+          cor = 100;
+          //bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
+          break;
+        }
+        case explode: {
+          cor = 22;
+          //bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
+          break;
+        }
+        default: {
+          Serial.println("Something wrong!!");
+          break;
+        }
+      }*/
+      xSemaphoreGive(xMutex);
     }
-    else {
-      NoData();
-      }  
-    }
+    vTaskDelay(1000/portTICK_PERIOD_MS);
   }
 }
+
+
+
+
+
