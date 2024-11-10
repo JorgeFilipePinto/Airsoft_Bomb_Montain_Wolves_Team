@@ -166,7 +166,6 @@ void core_1(){
     }
 
     case TryCode: {
-      bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
       if (millis() - gameTimeLast >= bomb.gameTime) {
         bomb.bombStatus = explode;
         gameStatus = Explode;
@@ -213,9 +212,7 @@ void core_1(){
           }
         }else if (isNum(key)){
           secondCode += key;
-          //Serial.print("Digit Insert "); Serial.println(key);
           secondCodeSize++;
-          //Serial.print("Faltam "); Serial.println(secondCodeSize);
           printDigit(secondCode);
         }
       }
@@ -249,7 +246,6 @@ void core_1(){
     }
 
     case Disarm: {
-      bomb.leds ? respiracao(100, bomb.speedLight) : fillSolidColor(CRGB::Black);
       bomb.bombStatus = disarm;
       youWin();
       beepOn(true);
@@ -257,12 +253,13 @@ void core_1(){
       if (key == 'D') {
         gameStatus = Restart;
         lcd.clear();
+        fillSolidColor(CRGB::Black);
+        delay(200);
       }
       break;
     }
 
     case Explode: {
-      bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
       bomb.bombStatus = explode;
       beepOn(true);
       bombExploded();
@@ -270,18 +267,21 @@ void core_1(){
       if (key == 'D') {
         gameStatus = Restart;
         lcd.clear();
+        fillSolidColor(CRGB::Black);
+        delay(200);
       }
       break;
     }
 
     case ExplodeTryArming: {
-      bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
       beepOn(true);
       bombExplodedToArming();
       char key = keypad.getKey();
       if (key == 'D') {
         lcd.clear();
         gameStatus = Restart;
+        fillSolidColor(CRGB::Black);
+        delay(200);
       }
       break;
     }
