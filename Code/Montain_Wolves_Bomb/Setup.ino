@@ -32,28 +32,13 @@ void setup_ori() {
   Serial.printf("The device with name \"%s\" is started \nNow you can pai it with Bluetooth\n", device_name.c_str());
   Serial.print("MAC Address: "); Serial.println(BT.getBtAddressString());
   
-  xMutex = xSemaphoreCreateMutex();
-
-  xTaskCreatePinnedToCore (
-    &GPSData,
-    "GPSData",
-    10000,
-    NULL,
-    1,
-    NULL,
-    0
-  );
-
   xTaskCreatePinnedToCore(
-    &gpsTracker,
+    gpsTracker,
     "Task2",
     10000,
     NULL,
-    3,
-    NULL,
-    0
-    );
-
-  
+    1,
+    &Task2,
+    0);
 
 }

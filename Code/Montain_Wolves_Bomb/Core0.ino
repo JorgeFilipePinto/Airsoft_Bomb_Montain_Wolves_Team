@@ -49,7 +49,7 @@ void gpsTracker(void * pvParameters) {
       }
     }
   }
-}
+
 
 
 

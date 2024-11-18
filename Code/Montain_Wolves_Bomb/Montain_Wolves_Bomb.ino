@@ -23,14 +23,12 @@
 #define SCREEN_ADDRESS 0x3C //See datasheet for Address
 #define NUM_LEDS_FITA 20
 #define PINO_FITA 15
+#define LED_Bri
 #define RXD2 16
 #define TXD2 17
 #define beep 2
 HardwareSerial neogps(1);
 CRGB fita[NUM_LEDS_FITA];
-
-
-SemaphoreHandle_t xMutex;
 
 
 // Variáveis de programa
