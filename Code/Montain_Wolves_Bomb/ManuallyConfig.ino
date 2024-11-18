@@ -12,7 +12,7 @@ extern void printGPS(String);
 extern void printConfirmConfig();
 extern void beepingTimes(int, int);
 
-enum Configuration {
+enum Config {
   Players,
   TimeGame,
   TimeBomb,
@@ -26,7 +26,7 @@ enum Configuration {
 };
 
 boolean manuallyConfigured(){
-  Configuration currentConfig = Players;
+  Config config = Players;
   String _players = "";
   String _timeGame = "30";
   String _timeBomb = "15";
@@ -34,7 +34,7 @@ boolean manuallyConfigured(){
 
   char key;
   while (!Configured) {
-    switch(currentConfig){
+    switch(config){
       case Players: {
         printPlayers();
         printDigit(_players);
@@ -53,7 +53,7 @@ boolean manuallyConfigured(){
             }
           if (key == 'D' && _players.length() > 0) {
             lcd.clear();
-            currentConfig = TimeGame;
+            config = TimeGame;
             bomb.players = _players.toInt();
             }
           }
@@ -78,7 +78,7 @@ boolean manuallyConfigured(){
             if (key == 'D' && _timeGame.length() > 0) {
               bomb.gameTime = _timeGame.toInt();
               bomb.gameTime *= 60000;
-              currentConfig = TimeBomb;
+              config = TimeBomb;
               lcd.clear();
             }
           }
@@ -102,7 +102,7 @@ boolean manuallyConfigured(){
           }
           if (key == 'D' && _timeBomb.length() > 0) {
             bomb.time = _timeBomb.toInt() * 60000;
-            currentConfig = BombCode;
+            config = BombCode;
             lcd.clear();
           }
         }
@@ -127,7 +127,7 @@ boolean manuallyConfigured(){
             }
           if (key == 'D' && _code.length() > 0 && _code.length() == _players.toInt()) {
             bomb.code = _code;
-            currentConfig = GPS;
+            config = GPS;
             lcd.clear();
             }
           }
@@ -148,7 +148,7 @@ boolean manuallyConfigured(){
               bomb.gps = true; 
             }
             if (key == 'D') {
-              bomb.gps ? currentConfig = SetNewCoordinate : currentConfig = Leds;
+              bomb.gps ? config = SetNewCoordinate : config = Leds;
               lcd.clear();
             }
           }
@@ -168,7 +168,7 @@ boolean manuallyConfigured(){
               delay(2000);
               }
             if (key == 'D') {
-              currentConfig = Leds;
+              config = Leds;
               lcd.clear();
             }
           }
@@ -189,7 +189,7 @@ boolean manuallyConfigured(){
               bomb.leds = true;
             }
             if (key == 'D') {
-              currentConfig = Sound;
+              config = Sound;
               lcd.clear();
             }
           }
@@ -210,7 +210,7 @@ boolean manuallyConfigured(){
               bomb.sound = true;
             }
             if (key == 'D') {
-              currentConfig = Smoke;
+              config = Smoke;
               lcd.clear();
             }
           }
@@ -231,7 +231,7 @@ boolean manuallyConfigured(){
               bomb.smoke = true; 
             }
             if (key == 'D') {
-              currentConfig = Confirm;
+              config = Confirm;
               lcd.clear();
             }
           }
@@ -245,7 +245,7 @@ boolean manuallyConfigured(){
             beepingTimes(1, 50);
             if (key == 'C') {
               lcd.clear();
-              currentConfig = Players;
+              config = Players;
             }
             if (key == 'D') {
               lcd.clear();
@@ -257,4 +257,4 @@ boolean manuallyConfigured(){
       }
     }
     return true;
-  };
+  }
