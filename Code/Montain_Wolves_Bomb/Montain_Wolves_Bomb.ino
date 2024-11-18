@@ -8,15 +8,6 @@
 #include <FastLED.h>
 #include "paletas.h"
 
-#include "SoftwareSerial.h"
-#include "DFRobotDFPlayerMini.h"
-static const uint8_t PIN_MP3_TX = 5; // Connects to module's RX 
-static const uint8_t PIN_MP3_RX = 18; // Connects to module's TX 
-SoftwareSerial softwareSerial(PIN_MP3_RX, PIN_MP3_TX);
-DFRobotDFPlayerMini player;
-boolean intro = true;
-
-
 // Check if Bluetooth is available
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
 #error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
@@ -40,10 +31,6 @@ CRGB fita[NUM_LEDS_FITA];
 
 
 SemaphoreHandle_t xMutex;
-
-
-
-
 
 
 // Variáveis de programa
@@ -88,7 +75,6 @@ TinyGPSPlus gps;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 void setup() {
-softwareSerial.begin(9600);
   setup_ori();
 
 }

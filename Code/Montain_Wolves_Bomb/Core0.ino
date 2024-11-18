@@ -15,12 +15,6 @@ extern void printDisplayData();
 void gpsTracker(void * pvParameters) {
   for(;;) {
     switch(bomb.bombStatus){
-      case initialize: {
-        if(intro) {
-          player.volume(30);
-          player.play(1);
-          intro = false;
-        }
         bomb.leds ? cometa() : fillSolidColor(CRGB::Black);
         break;
       }
