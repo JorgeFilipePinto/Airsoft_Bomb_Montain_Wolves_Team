@@ -1,4 +1,4 @@
-void GPSData (void * paramteter) {
+/*void GPSData (void * paramteter) {
   while (1) {
     if (xMutex != NULL && bomb.gps) {
       boolean newData = false;
@@ -33,4 +33,4 @@ void GPSData (void * paramteter) {
     }
     vTaskDelay(1000/portTICK_PERIOD_MS);
   }
-}
+}*/

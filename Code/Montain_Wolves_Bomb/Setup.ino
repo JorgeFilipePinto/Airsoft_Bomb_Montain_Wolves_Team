@@ -24,7 +24,6 @@ void setup_ori() {
   BT.begin(device_name);
 
   FastLED.addLeds<WS2812B, PINO_FITA, GRB>(fita, NUM_LEDS_FITA);
-  FastLED.setBrightness(100);
 
   delay(2000);
 
