@@ -56,7 +56,6 @@ GameStatus gameStatus = Intro;
 void core_1(){
   switch(gameStatus){
     case Intro: {
-      //bomb.leds ? respiracao(100, bomb.speedLight) : fillSolidColor(CRGB::Black);
       char key = keypad.getKey();
       key ? beepingTimes(1, 50): void();
       teamIntro();
@@ -84,8 +83,9 @@ void core_1(){
       if (key == 'D'){
         beepingTimes(1, 50);
         lcd.clear();
-        manuallyConfigured();
-        gameStatus = Prepared;
+        if (manuallyConfigured()) {
+          gameStatus = Prepared;
+        }
       }
       break;
     }
@@ -167,10 +167,6 @@ void core_1(){
     }
 
     case TryCode: {
-<<<<<<< HEAD
-=======
-      //bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
->>>>>>> resolveBugs
       if (millis() - gameTimeLast >= bomb.gameTime) {
         bomb.bombStatus = explode;
         gameStatus = Explode;
