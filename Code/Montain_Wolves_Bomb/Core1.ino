@@ -56,6 +56,7 @@ GameStatus gameStatus = Intro;
 void core_1(){
   switch(gameStatus){
     case Intro: {
+      //bomb.leds ? respiracao(100, bomb.speedLight) : fillSolidColor(CRGB::Black);
       char key = keypad.getKey();
       key ? beepingTimes(1, 50): void();
       teamIntro();
@@ -166,7 +167,7 @@ void core_1(){
     }
 
     case TryCode: {
-      bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
+      //bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
       if (millis() - gameTimeLast >= bomb.gameTime) {
         bomb.bombStatus = explode;
         gameStatus = Explode;
@@ -249,7 +250,7 @@ void core_1(){
     }
 
     case Disarm: {
-      bomb.leds ? respiracao(100, bomb.speedLight) : fillSolidColor(CRGB::Black);
+      //bomb.leds ? respiracao(100, bomb.speedLight) : fillSolidColor(CRGB::Black);
       bomb.bombStatus = disarm;
       youWin();
       beepOn(true);
@@ -262,7 +263,7 @@ void core_1(){
     }
 
     case Explode: {
-      bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
+      //bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
       bomb.bombStatus = explode;
       beepOn(true);
       bombExploded();
@@ -275,7 +276,7 @@ void core_1(){
     }
 
     case ExplodeTryArming: {
-      bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
+      //bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
       beepOn(true);
       bombExplodedToArming();
       char key = keypad.getKey();

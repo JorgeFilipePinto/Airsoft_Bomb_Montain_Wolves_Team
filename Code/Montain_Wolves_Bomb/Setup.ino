@@ -24,7 +24,7 @@ void setup_ori() {
   BT.begin(device_name);
 
   FastLED.addLeds<WS2812B, PINO_FITA, GRB>(fita, NUM_LEDS_FITA);
-  FastLED.setBrightness(200);
+  FastLED.setBrightness(LED_BRIGHTNESS);
 
   delay(2000);
 
@@ -32,8 +32,8 @@ void setup_ori() {
   Serial.printf("The device with name \"%s\" is started \nNow you can pai it with Bluetooth\n", device_name.c_str());
   Serial.print("MAC Address: "); Serial.println(BT.getBtAddressString());
   
-  xMutex = xSemaphoreCreateMutex();
-
+  //xMutex = xSemaphoreCreateMutex();
+/*
   xTaskCreatePinnedToCore (
     &GPSData,
     "GPSData",
@@ -42,18 +42,15 @@ void setup_ori() {
     1,
     NULL,
     0
-  );
+  );*/
 
   xTaskCreatePinnedToCore(
-    &gpsTracker,
+    gpsTracker,
     "Task2",
     10000,
     NULL,
-    3,
-    NULL,
-    0
-    );
-
-  
+    1,
+    &Task2,
+    0);
 
 }

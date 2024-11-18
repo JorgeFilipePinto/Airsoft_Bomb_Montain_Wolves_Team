@@ -23,6 +23,7 @@
 #define SCREEN_ADDRESS 0x3C //See datasheet for Address
 #define NUM_LEDS_FITA 20
 #define PINO_FITA 15
+#define LED_BRIGHTNESS 10
 #define RXD2 16
 #define TXD2 17
 #define beep 2
@@ -66,7 +67,7 @@ char keys[ROWS][COLS] = {
   {'*','0','#','D'}
 };
 
-//TaskHandle_t Task2;
+TaskHandle_t Task2;
 
 extern void setup_ori();
 extern void core_1();

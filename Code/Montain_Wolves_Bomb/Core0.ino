@@ -11,17 +11,16 @@ extern void NoData();
 extern void printDisplayData();
 
 void gpsTracker(void * pvParameters) {
-  while (1) {
-    if (xMutex != NULL) {
-      /*switch(bomb.bombStatus){
+  for(;;) {
+      switch(bomb.bombStatus){
         case initialize: {
-          //bomb.leds ? respiracao(100, bomb.speedLight) : fillSolidColor(CRGB::Black);
+          bomb.leds ? respiracao(100, bomb.speedLight) : fillSolidColor(CRGB::Black);
           break;
         }
         case configuration: {
           cor = 100;
-          //bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
-          //bomb.gps ? NoData() : clearAll();
+          bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
+          bomb.gps ? NoData() : clearAll();
           break;
         }
         case readyToArm: {
@@ -29,28 +28,25 @@ void gpsTracker(void * pvParameters) {
           break;
         }
         case armed: {
-            cor = 22;
-            //bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
+          cor = 22;
+          bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
           break;
         }
         case disarm: {
           cor = 100;
-          //bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
+          bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
           break;
         }
         case explode: {
           cor = 22;
-          //bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
+          bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
           break;
         }
         default: {
           Serial.println("Something wrong!!");
           break;
         }
-      }*/
-      xSemaphoreGive(xMutex);
-    }
-    vTaskDelay(1000/portTICK_PERIOD_MS);
+      }
   }
 }
 
