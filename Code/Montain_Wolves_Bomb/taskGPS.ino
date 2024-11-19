@@ -1,6 +1,5 @@
-/*void GPSData (void * paramteter) {
+/*void GPSData () {
   while (1) {
-    if (xMutex != NULL && bomb.gps) {
       boolean newData = false;
       for (unsigned long start = millis(); millis() - start < 1000;) {
         while (neogps.available()) {

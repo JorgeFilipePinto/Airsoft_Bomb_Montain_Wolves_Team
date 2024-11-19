@@ -22,7 +22,7 @@ void gpsTracker(void * pvParameters) {
         case configuration: {
           cor = 100;
           bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
-          bomb.gps ? NoData() : clearAll();
+          //bomb.gps ? NoData() : clearAll();
           break;
         }
         case readyToArm: {
@@ -36,12 +36,12 @@ void gpsTracker(void * pvParameters) {
         }
         case disarm: {
           cor = 100;
-          bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
+          bomb.leds ? fillSolidColor(CRGB::Green) : fillSolidColor(CRGB::Black);
           break;
         }
         case explode: {
           cor = 22;
-          bomb.leds ? respiracao(cor, bomb.speedLight) : fillSolidColor(CRGB::Black);
+          bomb.leds ? fillSolidColor(CRGB::Red) : fillSolidColor(CRGB::Black);
           break;
         }
         default: {

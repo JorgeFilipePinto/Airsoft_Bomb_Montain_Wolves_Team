@@ -23,6 +23,7 @@
 #define SCREEN_ADDRESS 0x3C //See datasheet for Address
 #define NUM_LEDS_FITA 20
 #define PINO_FITA 15
+#define LED_BRIGHTNESS 10
 #define RXD2 16
 #define TXD2 17
 #define beep 2
