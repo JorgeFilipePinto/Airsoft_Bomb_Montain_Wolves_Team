@@ -10,7 +10,6 @@ enum BombStatus {
 };
 
 
-
 class Bomb{
   public:
     int time;
@@ -45,8 +44,5 @@ class Bomb{
 
 
   private:
-
-
-
 
 };

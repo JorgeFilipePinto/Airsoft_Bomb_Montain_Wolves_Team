@@ -1,4 +1,5 @@
 boolean manuallyConfigured();
+extern void checkStatus(boolean);
 extern boolean isNum(char);
 extern void printPlayers();
 extern void printTimeGame();
@@ -135,6 +136,7 @@ boolean manuallyConfigured(){
         }
 
         case GPS: {
+          checkStatus(bomb.gps);
           printGPS(bomb.checkGPS());
           key = keypad.getKey();
           if (key) {
@@ -156,6 +158,7 @@ boolean manuallyConfigured(){
         }
 
         case SetNewCoordinate: {
+          checkStatus(gps.satellites.value() > 6);
           gps.satellites.value() < 6 ? WaitSat() : printCoordinate();
           key = keypad.getKey();
           if (key) {
@@ -176,6 +179,7 @@ boolean manuallyConfigured(){
         }
 
         case Leds: {
+          checkStatus(bomb.leds);
           printLeds(bomb.checkLeds());
           key = keypad.getKey();
           if (key) {
@@ -197,6 +201,7 @@ boolean manuallyConfigured(){
         }
 
         case Sound: {
+          checkStatus(bomb.sound);
           printSound(bomb.checkSound());
           key = keypad.getKey();
           if (key) {
@@ -210,7 +215,8 @@ boolean manuallyConfigured(){
               bomb.sound = true;
             }
             if (key == 'D') {
-              config = Smoke;
+              config = Confirm;
+              //config = Smoke;
               lcd.clear();
             }
           }
@@ -218,6 +224,7 @@ boolean manuallyConfigured(){
         }
 
         case Smoke: {
+          checkStatus(bomb.smoke);
           printSmoke(bomb.checkSmoke());
           key = keypad.getKey();
           if (key) {
@@ -250,6 +257,7 @@ boolean manuallyConfigured(){
             if (key == 'D') {
               lcd.clear();
               Configured = true;
+              fillSolidColor(CRGB::Black);
             }
           }
           break;

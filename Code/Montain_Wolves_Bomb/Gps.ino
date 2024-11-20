@@ -67,7 +67,6 @@ void clearAll() {
 
 
 void NoData() {
-  display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);
   display.setTextSize(1);
   display.setCursor(2, 5);

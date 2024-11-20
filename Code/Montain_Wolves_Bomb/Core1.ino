@@ -1,4 +1,5 @@
 extern void teamIntro();
+extern void gradienteOndas();
 extern void printBluetoothChoice();
 extern void printBluetoothConfig();
 extern void bluetoothConfig(BluetoothSerial);
@@ -56,12 +57,14 @@ GameStatus gameStatus = Intro;
 void core_1(){
   switch(gameStatus){
     case Intro: {
+      fillSolidColor(CRGB::Blue);
       char key = keypad.getKey();
       key ? beepingTimes(1, 50): void();
       teamIntro();
       if (key == 'D') {
         lcd.clear();
         gameStatus = Configuration;
+        fillSolidColor(CRGB::Black);
       }
       break;
     }
@@ -97,6 +100,7 @@ void core_1(){
           char key = keypad.getKey();
           if(key == 'D') {
             gameStatus = ReadyToArm;
+            lcd.clear();
           }
         }else{
           lcd.setCursor(0,0);
@@ -126,7 +130,7 @@ void core_1(){
         if(key == 'D' && bomb.tryArming > 0 && codeSize > 0){
           if(code == bomb.code){
             gameStatus = TryCode;
-            //Serial.println("https://www.google.com/maps/place/40.769838,-8.026673");
+            Serial.println("https://www.google.com/maps/place/" + String(bomb.latZone,6) + "," + String(bomb.longZone,6));
             lastBeep = millis();
             timeMin = bomb.time / 60000;
             bombTime = bomb.time;
@@ -167,6 +171,7 @@ void core_1(){
     }
 
     case TryCode: {
+      bomb.leds ? respiracao(22, bomb.speedLight) : fillSolidColor(CRGB::Black);
       if (millis() - gameTimeLast >= bomb.gameTime) {
         bomb.bombStatus = explode;
         gameStatus = Explode;
@@ -181,14 +186,15 @@ void core_1(){
           bombTime_millisAnterior = millis();
           timeMin--;
           timeSec = 59;
-          lcd.clear();
+          //lcd.clear();
         } else if (millis() - bombTime_millisAnterior >= 1000) {
           bombTime_millisAnterior = millis();
           timeSec--;
           bomb.time -= 1000;
-          lcd.clear();
+          //lcd.clear();
         }
         if (timeMin > 0 || timeSec > 0){
+          if(timeSec == 9 || timeMin == 9) {lcd.clear();}
           printClock(timeMin, timeSec);
         }
       }else {
@@ -237,7 +243,9 @@ void core_1(){
         wrongCode();
         tryAgain();
         bomb.tries--;
+        bomb.leds ? fillSolidColor(CRGB::Red) : fillSolidColor(CRGB::Black);
         (bomb.tries > 0) ? delay(5 * 1000) : delay(0);
+        fillSolidColor(CRGB::Black);
         secondCodeSize = 0;
         secondCode = "";
         lcd.clear();
@@ -247,10 +255,10 @@ void core_1(){
     }
 
     case Disarm: {
-
+      bomb.leds ? fillSolidColor(CRGB::Green) : fillSolidColor(CRGB::Black);
       bomb.bombStatus = disarm;
       youWin();
-      beepOn(true);
+      beepOn(bomb.sound);
       char key = keypad.getKey();
       if (key == 'D') {
         gameStatus = Restart;
@@ -262,9 +270,9 @@ void core_1(){
     }
 
     case Explode: {
-
+      bomb.leds ? fillSolidColor(CRGB::Red) : fillSolidColor(CRGB::Black);
       bomb.bombStatus = explode;
-      beepOn(true);
+      beepOn(bomb.sound);
       bombExploded();
       char key = keypad.getKey();
       if (key == 'D') {
@@ -277,8 +285,8 @@ void core_1(){
     }
 
     case ExplodeTryArming: {
-
-      beepOn(true);
+      bomb.leds ? fillSolidColor(CRGB::Red) : fillSolidColor(CRGB::Black);
+      beepOn(bomb.sound);
       bombExplodedToArming();
       char key = keypad.getKey();
       if (key == 'D') {
@@ -293,9 +301,11 @@ void core_1(){
     case Restart: {
       char key = keypad.getKey();
       restart();
+      digitalWrite(beep, LOW);
       if (key) {
         beepingTimes(1, 50);
         if (key == 'D') {
+          fillSolidColor(CRGB::Black);
           beepOn(false);
           ESP.restart();
         }

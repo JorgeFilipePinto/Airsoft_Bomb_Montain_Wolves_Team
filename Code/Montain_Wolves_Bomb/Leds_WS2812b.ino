@@ -7,6 +7,14 @@ void cometa();
 void explosao();
 CRGB returnColor(int);
 CRGBPalette16 returnPalette(int);
+void checkStatus();
+
+
+
+void checkStatus(boolean status) {
+  status ? fillSolidColor(CRGB::Green) : fillSolidColor(CRGB::Red);
+}
+
 
 /*
  * EFEITO 1
@@ -36,9 +44,12 @@ void gradienteOndas() {
  */
 void gradienteMovendo() {
   CRGBPalette16 selPalette = returnPalette(random(1, NUM_PALETTES + 1));
-  fill_palette(fita, NUM_LEDS_FITA, palleteIndex, 255 / NUM_LEDS_FITA, selPalette, 255, LINEARBLEND);
-  FastLED.show();
-  palleteIndex++;
+  for (int i = 0; i < 200; i++) {
+    fill_palette(fita, NUM_LEDS_FITA, palleteIndex, 255 / NUM_LEDS_FITA, selPalette, 255, LINEARBLEND);
+    FastLED.show();
+    palleteIndex++;
+    delay(10);
+  }
 }
 
 

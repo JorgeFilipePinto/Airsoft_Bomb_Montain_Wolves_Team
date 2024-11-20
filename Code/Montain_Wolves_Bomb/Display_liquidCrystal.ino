@@ -161,7 +161,7 @@ void availableZone(){
 }
 
 void invalidZone(){
-  lcd.backlightOff();
+  //lcd.backlightOff();
   lcd.setCursor(6, 0);
   lcd.print("Zone");
   lcd.setCursor(4, 1);

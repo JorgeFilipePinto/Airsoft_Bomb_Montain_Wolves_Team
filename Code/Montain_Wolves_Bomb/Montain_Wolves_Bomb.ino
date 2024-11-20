@@ -7,6 +7,7 @@
 #include <TinyGPS++.h>
 #include <FastLED.h>
 #include "paletas.h"
+#include <LoRa.h>
 
 // Check if Bluetooth is available
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
@@ -17,21 +18,21 @@
 #error Serial Port Profile for Bluetooth is not available or not enabled. It is only available for the ESP32 chip.
 #endif
 
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
-#define OLED_RESET -1 //Reset pin # (or -1 if sharing Arduino reset pin)
-#define SCREEN_ADDRESS 0x3C //See datasheet for Address
+#define SCREEN_WIDTH 128 // OLED display width
+#define SCREEN_HEIGHT 64 // OLED display height
+#define OLED_RESET -1 //Reset pin
+#define SCREEN_ADDRESS 0x3C //LCD Oled Address
 #define NUM_LEDS_FITA 20
 #define PINO_FITA 15
 #define LED_BRIGHTNESS 10
 #define RXD2 16
 #define TXD2 17
 #define beep 2
+
 HardwareSerial neogps(1);
+
+
 CRGB fita[NUM_LEDS_FITA];
-
-
-// Variáveis de programa
 uint8_t hue = 10;
 uint8_t palleteIndex = 0;
 uint16_t breatheLevel = 0;
