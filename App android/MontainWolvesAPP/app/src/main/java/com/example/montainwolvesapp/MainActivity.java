@@ -31,11 +31,11 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity {
 
     Switch gps, leds, sound, smoke;
-    Button sendConfig;
+    Button sendConfig, setCoordinates;
     ImageButton playPause;
     ImageView teamLogo;
     MediaPlayer mediaPlayer = new MediaPlayer();
-    EditText timeGame, numPlayers, bombCode;
+    EditText timeBomb, timeGame, numPlayers, bombCode;
     boolean musicSound;
 
     private BluetoothAdapter bluetoothAdapter;
@@ -62,14 +62,32 @@ public class MainActivity extends AppCompatActivity {
         smoke = (Switch) findViewById(R.id.sw_smoke);
         sound = (Switch) findViewById(R.id.sw_sound);
         sendConfig = (Button) findViewById(R.id.btn_send_config);
+        setCoordinates = (Button) findViewById(R.id.setCoordinates);
         timeGame = (EditText) findViewById(R.id.edit_text_time_game);
+        timeBomb = (EditText) findViewById(R.id.edit_text_time_bomb);
         numPlayers = (EditText) findViewById(R.id.edit_text_players);
         bombCode = (EditText) findViewById(R.id.edit_text_bomb_Code);
 
         timeGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String message = "TIME" + timeGame.getText().toString() + "\n";
+                String message = "TIMEG" + timeGame.getText().toString() + "\n";
+                sendData(message);
+            }
+        });
+
+        setCoordinates.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message = "setCoordinates" + "\n";
+                sendData(message);
+            }
+        });
+
+        timeGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message = "TIMEB" + timeGame.getText().toString() + "\n";
                 sendData(message);
             }
         });

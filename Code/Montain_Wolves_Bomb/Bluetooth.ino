@@ -98,13 +98,13 @@ void bluetoothConfig(BluetoothSerial BT){
     lcd.print("OFF");
   }
 
-  if (message == "setCoordenates") {
+  if (message == "setCoordinates") {
     beepingTimes(5, 50);
     if(gps.satellites.value() > 5){
       bomb.latZone = gps.location.lat();
       bomb.longZone = gps.location.lng();
       lcd.setCursor(2, 0);
-      lcd.print("coordenates");
+      lcd.print("coordinates");
       lcd.setCursor(3, 1);
       lcd.print("Configured");
     } else {
