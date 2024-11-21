@@ -1,6 +1,7 @@
 extern boolean bluetoothConfigured;
 extern void bombIsReady();
 extern void beepingTimes(int, int);
+extern void WaitSat();
 
 
 void bluetoothConfig(BluetoothSerial);
@@ -95,6 +96,22 @@ void bluetoothConfig(BluetoothSerial BT){
     lcd.print("GPS");
     lcd.setCursor(6, 1);
     lcd.print("OFF");
+  }
+
+  if (message == "setCoordenates") {
+    beepingTimes(5, 50);
+    if(gps.satellites.value() > 5){
+      bomb.latZone = gps.location.lat();
+      bomb.longZone = gps.location.lng();
+      lcd.setCursor(2, 0);
+      lcd.print("coordenates");
+      lcd.setCursor(3, 1);
+      lcd.print("Configured");
+    } else {
+      WaitSat();
+      beepingTimes(20, 50);
+      lcd.clear();
+    }
   }
 
   if (message == "ledsON")
