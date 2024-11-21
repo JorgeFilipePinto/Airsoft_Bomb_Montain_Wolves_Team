@@ -33,7 +33,21 @@ void bluetoothConfig(BluetoothSerial BT){
     lcd.print(String(bomb.players));
   }
 
-  if (message.substring(0,4) == "TIME")
+  if (message.substring(0,5) == "TIMEG")
+  {
+    beepingTimes(5, 50);
+    bomb.time = message.substring(4).toInt() * 60000;
+    Serial.print("\nGame Time: "); Serial.println(bomb.gameTime);
+    lcd.clear();
+    lcd.setCursor(3,0);
+    lcd.print("Game Time");
+    lcd.setCursor(2, 1);
+    lcd.print(String(bomb.gameTime / 60000));
+    lcd.setCursor(5, 1);
+    lcd.print("Minutes");
+  }
+
+    if (message.substring(0,5) == "TIMEB")
   {
     beepingTimes(5, 50);
     bomb.time = message.substring(4).toInt() * 60000;
