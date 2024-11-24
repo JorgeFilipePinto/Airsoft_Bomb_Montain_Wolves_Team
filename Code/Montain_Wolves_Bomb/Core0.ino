@@ -14,6 +14,9 @@ extern void printDisplayData();
 
 void gpsTracker(void * pvParameters) {
   for(;;) {
+    if(gps.satellites.value() < 1) {
+      display.clearDisplay();
+    }
     if(getNewData()) {
       if(gps.satellites.value() > 3) {
         SerialGPSData();

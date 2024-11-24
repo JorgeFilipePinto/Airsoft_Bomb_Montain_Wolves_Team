@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        timeGame.setOnClickListener(new View.OnClickListener() {
+        timeBomb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String message = "TIMEB" + timeGame.getText().toString() + "\n";

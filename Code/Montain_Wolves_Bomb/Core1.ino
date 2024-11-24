@@ -1,4 +1,5 @@
 extern void teamIntro();
+extern void bluetoothInit();
 extern void gradienteOndas();
 extern void printBluetoothChoice();
 extern void printBluetoothConfig();
@@ -77,6 +78,7 @@ void core_1(){
         beepingTimes(1, 50);
         lcd.clear();
         String message = "";
+        bluetoothInit();
         printBluetoothConfig();
         bluetoothConfig(BT);
         lcd.clear();

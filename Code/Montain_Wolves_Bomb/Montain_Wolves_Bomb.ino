@@ -69,7 +69,7 @@ extern void core_1();
 BluetoothSerial BT;
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 LCD_I2C lcd(0x27, 16, 2);
-Bomb bomb(30, "0000", 3, 3, 30);
+Bomb bomb(15, "123456789", 3, 3, 30);
 TinyGPSPlus gps;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 

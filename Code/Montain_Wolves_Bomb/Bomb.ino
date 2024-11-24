@@ -13,8 +13,8 @@ Bomb::Bomb(int time, String code, int tries, int tryArming, int gameTime){
   this->sound = true;
   this->leds = true;
   this->smoke = false;
-  this->latZone = 40.769726;
-  this->longZone = -8.027784;
+  this->latZone = 0.0;
+  this->longZone = 0.0;
   this->maxDistance = 10.0;
   this->codeDiscovered = false;
 };

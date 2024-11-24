@@ -2,15 +2,21 @@ extern boolean bluetoothConfigured;
 extern void bombIsReady();
 extern void beepingTimes(int, int);
 extern void WaitSat();
-
-
+extern void setNewCoordinates();
 void bluetoothConfig(BluetoothSerial);
+void bluetoothInit();
 
-
+void bluetoothInit(){
+  bomb.gps = false;
+  bomb.sound = false;
+  bomb.leds = false;
+  bomb.smoke = false;
+}
 
 void bluetoothConfig(BluetoothSerial BT){
   String message = "";
   while(!bluetoothConfigured){
+    (gps.satellites.value() < 3) ? fillSolidColor(CRGB::Red) : fillSolidColor(CRGB::Green);
 
     if (BT.available()) {
       char inComingChar = BT.read();
@@ -24,7 +30,7 @@ void bluetoothConfig(BluetoothSerial BT){
 
   if (message.substring(0, 4) == "TEAM")
   {
-    beepingTimes(5, 50);
+    if(bomb.sound){beepingTimes(5, 50);}
     bomb.players = message.substring(4).toInt();
     Serial.print("\nPlayers: "); Serial.println(bomb.players);
     lcd.clear();
@@ -36,8 +42,8 @@ void bluetoothConfig(BluetoothSerial BT){
 
   if (message.substring(0,5) == "TIMEG")
   {
-    beepingTimes(5, 50);
-    bomb.time = message.substring(4).toInt() * 60000;
+    if(bomb.sound){beepingTimes(5, 50);}
+    bomb.gameTime = message.substring(5).toInt() * 60000;
     Serial.print("\nGame Time: "); Serial.println(bomb.gameTime);
     lcd.clear();
     lcd.setCursor(3,0);
@@ -50,8 +56,8 @@ void bluetoothConfig(BluetoothSerial BT){
 
     if (message.substring(0,5) == "TIMEB")
   {
-    beepingTimes(5, 50);
-    bomb.time = message.substring(4).toInt() * 60000;
+    if(bomb.sound){beepingTimes(5, 50);}
+    bomb.time = message.substring(5).toInt() * 60000;
     Serial.print("\nGame Time: "); Serial.println(bomb.time);
     lcd.clear();
     lcd.setCursor(3,0);
@@ -64,7 +70,7 @@ void bluetoothConfig(BluetoothSerial BT){
 
   if (message.substring(0,4) == "CODE")
   {
-    beepingTimes(5, 50);
+    if(bomb.sound){beepingTimes(5, 50);}
     bomb.code = message.substring(4);
     Serial.print("Bomb Code: "); Serial.println(bomb.code);
     lcd.clear();
@@ -76,7 +82,7 @@ void bluetoothConfig(BluetoothSerial BT){
 
   if (message == "gpsON")
   {
-    beepingTimes(5, 50);
+    if(bomb.sound){beepingTimes(5, 50);}
     bomb.gps = true;
     Serial.println("\nGPS is ON!");
     lcd.clear();
@@ -88,7 +94,7 @@ void bluetoothConfig(BluetoothSerial BT){
 
   if (message == "gpsOFF")
   {
-    beepingTimes(5, 50);
+    if(bomb.sound){beepingTimes(5, 50);}
     bomb.gps = false;
     Serial.println("\nGPS is OFF!");
     lcd.clear();
@@ -99,24 +105,22 @@ void bluetoothConfig(BluetoothSerial BT){
   }
 
   if (message == "setCoordinates") {
-    beepingTimes(5, 50);
+    if(bomb.sound){beepingTimes(5, 50);}
     if(gps.satellites.value() > 5){
       bomb.latZone = gps.location.lat();
       bomb.longZone = gps.location.lng();
-      lcd.setCursor(2, 0);
-      lcd.print("coordinates");
-      lcd.setCursor(3, 1);
-      lcd.print("Configured");
+      setNewCoordinates();
     } else {
       WaitSat();
       beepingTimes(20, 50);
+      delay(2000);
       lcd.clear();
     }
   }
 
   if (message == "ledsON")
   {
-    beepingTimes(5, 50);
+    if(bomb.sound){beepingTimes(5, 50);}
     bomb.leds = true;
     Serial.println("\nLeds are ON!");
     lcd.clear();
@@ -128,7 +132,7 @@ void bluetoothConfig(BluetoothSerial BT){
 
   if (message == "ledsOFF")
   {
-    beepingTimes(5, 50);
+    if(bomb.sound){beepingTimes(5, 50);}
     bomb.leds = false;
     Serial.println("\nLeds are OFF!");
     lcd.clear();
@@ -140,7 +144,7 @@ void bluetoothConfig(BluetoothSerial BT){
 
   if (message == "soundON")
   {
-    beepingTimes(5, 50);
+    if(bomb.sound){beepingTimes(5, 50);}
     bomb.sound = true;
     Serial.println("\nSound is ON!");
     lcd.clear();
@@ -152,7 +156,7 @@ void bluetoothConfig(BluetoothSerial BT){
 
   if (message == "soundOFF")
   {
-    beepingTimes(5, 50);
+    if(bomb.sound){beepingTimes(5, 50);}
     bomb.sound = false;
     Serial.println("\nSound is OFF!");
     lcd.clear();
@@ -164,7 +168,7 @@ void bluetoothConfig(BluetoothSerial BT){
 
   if (message == "smokeON")
   {
-    beepingTimes(5, 50);
+    if(bomb.sound){beepingTimes(5, 50);}
     bomb.smoke = false;
     Serial.println("\nSmoke is ON!");
     lcd.clear();
@@ -176,7 +180,7 @@ void bluetoothConfig(BluetoothSerial BT){
 
   if (message == "smokeOFF")
   {
-    beepingTimes(5, 50);
+    if(bomb.sound){beepingTimes(5, 50);}
     bomb.smoke = false;
     Serial.println("\nSmoke is OFF!");
     lcd.clear();
@@ -188,14 +192,22 @@ void bluetoothConfig(BluetoothSerial BT){
 
   if (message == "sendConfig")
   {
-    beepingTimes(1, 2000);
-    bluetoothConfigured = true;
-    Serial.println("\nGame READY!!");
-    lcd.clear();
+    if(bomb.sound){beepingTimes(1, 2000);}
+    if(bomb.gps && bomb.latZone != 0.0 || !bomb.gps) {
+      bluetoothConfigured = true;
+      Serial.println("\nGame READY!!");
+      lcd.clear();
+      bombIsReady();
+      delay(2000);
+      lcd.clear();
+    } else {
+      lcd.setCursor(6, 0);
+      lcd.print("Set");
+      lcd.setCursor(2, 1);
+      lcd.print("Coordinates");
+      delay(2000);
+    }
 
-    bombIsReady();
-    delay(2000);
-    lcd.clear();
   }
   delay(50);
   }
