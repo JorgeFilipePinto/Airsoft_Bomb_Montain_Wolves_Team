@@ -41,8 +41,6 @@ class Bomb{
     int getSize();
     boolean isValidZone();
 
-
-
   private:
 
 };

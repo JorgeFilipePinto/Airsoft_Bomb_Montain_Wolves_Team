@@ -29,9 +29,9 @@
 #define TXD2 17
 #define beep 2
 
-HardwareSerial neogps(1);
+HardwareSerial neogps(1);//GPS created serial
 
-
+//Led Strip values
 CRGB fita[NUM_LEDS_FITA];
 uint8_t hue = 10;
 uint8_t palleteIndex = 0;
@@ -66,12 +66,12 @@ TaskHandle_t Task2;
 extern void setup_ori();
 extern void core_1();
 
-BluetoothSerial BT;
-Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS );
-LCD_I2C lcd(0x27, 16, 2);
-Bomb bomb(15, "123456789", 3, 3, 30);
-TinyGPSPlus gps;
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+BluetoothSerial BT; //Bluetooth object
+Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS ); //keypad object
+LCD_I2C lcd(0x27, 16, 2); //liquid cristal lcd object
+Bomb bomb(15, "123456789", 3, 3, 30); //bomb object
+TinyGPSPlus gps; //gps object
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET); //oled display object
 
 void setup() {
   setup_ori();

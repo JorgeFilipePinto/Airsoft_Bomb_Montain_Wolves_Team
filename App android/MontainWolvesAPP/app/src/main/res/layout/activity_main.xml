@@ -199,6 +199,4 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_bomb_Code" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

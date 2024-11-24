@@ -1,7 +1,5 @@
 package com.example.montainwolvesapp;
-
 import static android.content.ContentValues.TAG;
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -20,16 +18,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+//Criação dos meus objetos
     Switch gps, leds, sound, smoke;
     Button sendConfig, setCoordinates;
     ImageButton playPause;
@@ -51,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//Declaração dos meus objetos
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         bluetoothDevice = bluetoothAdapter.getRemoteDevice(DEVICE_ADDRESS);
 
@@ -68,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         numPlayers = (EditText) findViewById(R.id.edit_text_players);
         bombCode = (EditText) findViewById(R.id.edit_text_bomb_Code);
 
+
+//Envia o tempo de jogo
         timeGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//Envia o confirmação para configuração de coordenadas
         setCoordinates.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//Envia o tempo da bomba
         timeBomb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//Envia o número de jogadores
         numPlayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+//Envia o código da bomba
         bombCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+//Controla a activação ou desativação do gps
         gps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
+//Controla a activação ou desativação dos leds
         leds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 sendData(message);
             }
         });
-
+//Controla a activação ou desativação do fumo
         smoke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 sendData(message);
             }
         });
-
+//Controla a activação ou desativação do som da bomba
         sound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 sendData(message);
             }
         });
-
+//Envia a confirmação da configuração
         sendConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -192,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         connectBluetooth();
 
     }
-
+//Controlo do audio da aplicação
     public void introSound(){
         if(musicSound){
             musicSound = false;
@@ -201,14 +208,13 @@ public class MainActivity extends AppCompatActivity {
             musicSound = true;
             playPause.setImageResource(R.drawable.ic_pause);
         }
-
         if(musicSound) {
             mediaPlayer.start();
         }else{
             mediaPlayer.pause();
         }
     }
-
+//conecta ao bluetooth do macAddress indicado
     private void connectBluetooth() {
         try {
             bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(MY_UUID);
@@ -218,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
+//Envia a menssagem
     private void sendData(String message) {
         try {
             outputStream.write(message.getBytes());
@@ -236,5 +242,4 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 }
